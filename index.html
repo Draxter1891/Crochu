@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loop &amp; Bloom — Handmade Crochet</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        cream:  '#FDF9F4',
+        blush:  {50:'#FBF1F3',100:'#F7E4E9',200:'#F0CED8',300:'#E5AFBF',400:'#D692A6',500:'#C4758E',600:'#A85D75'},
+        sage:   {50:'#F2F6F3',100:'#E3EDE6',200:'#C7DBCE',300:'#A3C2B0',400:'#7FA791',500:'#628C77'},
+        butter: {100:'#FBF3E4',200:'#F5E4C8',300:'#EAD0A4'},
+        lilac:  {100:'#F1EDF5',200:'#DFD6EA',300:'#C3B3D6'},
+        cocoa:  {400:'#8A7A72',500:'#6E605A',600:'#5A4E49',700:'#453C39'},
+        honey:  '#E2B45A'
+      },
+      boxShadow: {
+        soft: '0 10px 30px -10px rgba(200,150,165,0.25)',
+        lift: '0 24px 45px -14px rgba(200,150,165,0.38)'
+      }
+    }
+  }
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Nunito',sans-serif;background:#FDF9F4}
+  h1,h2,h3,h4,.font-display{font-family:'Quicksand',sans-serif}
+  ::selection{background:#F0CED8;color:#453C39}
+  ::-webkit-scrollbar{width:10px;height:8px}
+  ::-webkit-scrollbar-track{background:#FBF1F3}
+  ::-webkit-scrollbar-thumb{background:#E5AFBF;border-radius:8px;border:2px solid #FBF1F3}
+
+  .field{width:100%;padding:.8rem 1.1rem;border-radius:1rem;border:1.5px solid #F0CED8;background:#fff;font-size:.95rem;font-weight:600;color:#453C39;outline:none;transition:.2s}
+  .field:focus{border-color:#D692A6;box-shadow:0 0 0 4px rgba(214,146,166,.15)}
+  .field::placeholder{color:#BCB2AB;font-weight:500}
+  .field.invalid{border-color:#E39AA3;background:#FEF4F4}
+  select.field{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236E605A' stroke-width='2.5' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.6rem}
+
+  .btn-primary{background:#C4758E;color:#fff;font-weight:800;border-radius:999px;padding:.85rem 1.75rem;transition:.25s;display:inline-flex;align-items:center;gap:.55rem;justify-content:center;cursor:pointer}
+  .btn-primary:hover{background:#A85D75;transform:translateY(-2px);box-shadow:0 14px 26px -10px rgba(196,117,142,.55)}
+  .btn-primary:active{transform:translateY(0) scale(.98)}
+  .btn-primary:disabled{opacity:.65;cursor:not-allowed;transform:none;box-shadow:none}
+  .btn-ghost{background:#fff;color:#5A4E49;font-weight:800;border-radius:999px;padding:.85rem 1.75rem;border:1.5px solid #F0CED8;transition:.25s;display:inline-flex;align-items:center;gap:.55rem;justify-content:center;cursor:pointer}
+  .btn-ghost:hover{border-color:#D692A6;color:#A85D75;background:#FBF1F3;transform:translateY(-2px)}
+
+  .nav-link{padding:.5rem 1.05rem;border-radius:9999px;color:#5A4E49;font-weight:800;font-size:.93rem;cursor:pointer;transition:.25s;user-select:none}
+  .nav-link:hover{background:#F7E4E9;color:#453C39}
+  .nav-link.active{background:#C4758E;color:#fff}
+  .mm-link{display:block;width:100%;padding:.7rem 1rem;border-radius:1rem;font-weight:800;color:#5A4E49;cursor:pointer}
+  .mm-link:hover{background:#FBF1F3}
+
+  .pill{padding:.5rem 1.1rem;border-radius:999px;font-weight:800;font-size:.84rem;background:#fff;border:1.5px solid #F0CED8;color:#5A4E49;cursor:pointer;transition:.2s;white-space:nowrap;user-select:none}
+  .pill:hover{border-color:#D692A6;transform:translateY(-1px)}
+  .pill.active{background:#C4758E;border-color:#C4758E;color:#fff;box-shadow:0 8px 18px -6px rgba(196,117,142,.5)}
+
+  .method-opt{border:1.5px solid #F0CED8;border-radius:1.25rem;padding:1rem 1.1rem;display:flex;align-items:center;gap:.9rem;cursor:pointer;transition:.2s;background:#fff}
+  .method-opt:hover{border-color:#D692A6}
+  .method-opt.selected{border-color:#C4758E;background:#FBF1F3;box-shadow:0 0 0 3px rgba(196,117,142,.12)}
+  .radio-dot{width:20px;height:20px;border-radius:50%;border:2px solid #E3D9D1;flex-shrink:0;position:relative;margin-left:auto;transition:.2s}
+  .method-opt.selected .radio-dot{border-color:#C4758E}
+  .method-opt.selected .radio-dot::after{content:'';position:absolute;inset:3px;background:#C4758E;border-radius:50%}
+
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-13px) rotate(3deg)}}
+  .animate-float{animation:floaty 6s ease-in-out infinite}
+  .animate-float-slow{animation:floaty 9s ease-in-out .8s infinite}
+  @keyframes spinSlow{to{transform:rotate(360deg)}}
+  .animate-spin-slow{animation:spinSlow 16s linear infinite}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  .page-enter{animation:fadeUp .5s ease both}
+  .fade-swap{animation:fadeUp .45s ease both}
+  @keyframes pop{0%{transform:scale(.5)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+  .pop{animation:pop .35s ease}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+  @keyframes ping-soft{0%{transform:scale(.9);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+  .ping-soft{animation:ping-soft 1.6s ease-out infinite}
+  @keyframes confettiFall{to{transform:translateY(108vh) rotate(720deg);opacity:.85}}
+  .confetti-piece{position:fixed;top:-24px;z-index:80;pointer-events:none;animation:confettiFall linear forwards}
+
+  .toast{display:flex;align-items:center;gap:.55rem;padding:.7rem 1.15rem;border-radius:999px;box-shadow:0 14px 30px -10px rgba(90,78,73,.35);transform:translateY(18px);opacity:0;transition:.3s;font-weight:800;font-size:.9rem}
+  .toast.show{transform:translateY(0);opacity:1}
+  .dot{width:8px;height:8px;border-radius:999px;background:#F0CED8;transition:.3s;border:none;cursor:pointer;padding:0}
+  .dot.active{width:24px;background:#C4758E}
+  .stitch{border-top:2px dashed #E5AFBF}
+  .arch{border-radius:999px 999px 2rem 2rem}
+</style>
+</head>
+<body class="bg-cream text-cocoa-500 antialiased min-h-screen">
+
+<!-- ================= TOASTS ================= -->
+<div id="toastWrap" class="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-2"></div>
+
+<!-- ================= AUTH PAGE ================= -->
+<div id="authPage" class="min-h-screen grid lg:grid-cols-2">
+  <!-- Left brand panel -->
+  <div class="relative hidden lg:flex flex-col justify-between bg-blush-50 overflow-hidden p-12">
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-blush-200/50 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-10 -right-20 w-80 h-80 bg-sage-200/40 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 left-8 w-24 h-24 border-2 border-dashed border-blush-300 rounded-full opacity-60 animate-spin-slow"></div>
+
+    <div class="relative flex items-center gap-3">
+      <svg viewBox="0 0 48 48" class="w-11 h-11"><circle cx="24" cy="24" r="18" fill="#E5AFBF"/><path d="M9 20c8-6 22-6 30 0M8 27c9 7 23 7 32 0M17 8c-4 10-4 22 0 32M31 8c4 10 4 22 0 32" stroke="#FBF1F3" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M33 36c4 3 8 4 12 3" stroke="#C4758E" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+      <span class="font-display font-bold text-2xl text-cocoa-700">Loop <span class="text-blush-500">&amp;</span> Bloom</span>
+    </div>
+
+    <div class="relative max-w-md">
+      <h1 class="font-display font-bold text-4xl xl:text-5xl text-cocoa-700 leading-tight mb-5">Every stitch tells a little love story.</h1>
+      <p class="text-cocoa-500 text-lg leading-relaxed mb-8">Welcome to my cozy corner of the internet. Sign in to browse soft, handmade crochet treasures — each one crocheted slowly, just for you.</p>
+      <ul class="space-y-3.5">
+        <li class="flex items-center gap-3 font-bold text-cocoa-600"><span class="w-7 h-7 rounded-full bg-sage-200 flex items-center justify-center"><svg class="w-4 h-4 text-sage-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg></span>Small-batch, made to order</li>
+        <li class="flex items-center gap-3 font-bold text-cocoa-600"><span class="w-7 h-7 rounded-full bg-sage-200 flex items-center justify-center"><svg class="w-4 h-4 text-sage-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg></span>Soft, ethically-sourced yarns</li>
+        <li class="flex items-center gap-3 font-bold text-cocoa-600"><span class="w-7 h-7 rounded-full bg-sage-200 flex items-center justify-center"><svg class="w-4 h-4 text-sage-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg></span>Free shipping on orders over $60</li>
+      </ul>
+    </div>
+
+    <div class="relative flex items-center gap-8">
+      <svg viewBox="0 0 48 48" class="w-14 h-14 animate-float"><circle cx="24" cy="24" r="17" fill="#A3C2B0"/><path d="M10 20c8-5 20-5 28 0M9 27c8 6 22 6 30 0M18 9c-4 9-4 21 0 29M30 9c4 9 4 21 0 29" stroke="#F2F6F3" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 48 48" class="w-10 h-10 animate-float-slow"><circle cx="24" cy="24" r="17" fill="#EAD0A4"/><path d="M10 20c8-5 20-5 28 0M9 27c8 6 22 6 30 0M18 9c-4 9-4 21 0 29M30 9c4 9 4 21 0 29" stroke="#FBF3E4" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 48 48" class="w-12 h-12 animate-float" style="animation-delay:1.4s"><circle cx="24" cy="24" r="17" fill="#C3B3D6"/><path d="M10 20c8-5 20-5 28 0M9 27c8 6 22 6 30 0M18 9c-4 9-4 21 0 29M30 9c4 9 4 21 0 29" stroke="#F1EDF5" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+      <p class="text-cocoa-400 font-bold text-sm ml-auto">— Maya, founder &amp; maker</p>
+    </div>
+  </div>
+
+  <!-- Right form panel -->
+  <div class="flex items-center justify-center p-6 sm:p-10">
+    <div class="w-full max-w-md">
+      <div class="lg:hidden flex items-center justify-center gap-3 mb-8">
+        <svg viewBox="0 0 48 48" class="w-10 h-10"><circle cx="24" cy="24" r="18" fill="#E5AFBF"/><path d="M9 20c8-6 22-6 30 0M8 27c9 7 23 7 32 0M17 8c-4 10-4 22 0 32M31 8c4 10 4 22 0 32" stroke="#FBF1F3" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M33 36c4 3 8 4 12 3" stroke="#C4758E" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+        <span class="font-display font-bold text-2xl text-cocoa-700">Loop <span class="text-blush-500">&amp;</span> Bloom</span>
+      </div>
+
+      <div class="bg-white rounded-[2rem] shadow-soft border border-blush-100 p-7 sm:p-9">
+        <h2 class="font-display font-bold text-2xl text-cocoa-700 mb-1.5">Welcome, lovely!</h2>
+        <p class="text-sm text-cocoa-400 font-semibold mb-6">Log in or create an account to start shopping.</p>
+
+        <!-- Tabs -->
+        <div class="bg-blush-50 rounded-full p-1.5 flex mb-7">
+          <button id="authTabLogin" onclick="authTab('login')" class="flex-1 py-2.5 rounded-full text-sm font-extrabold transition bg-white shadow-sm text-blush-600">Log In</button>
+          <button id="authTabSignup" onclick="authTab('signup')" class="flex-1 py-2.5 rounded-full text-sm font-extrabold transition text-cocoa-400">Sign Up</button>
+        </div>
+
+        <!-- LOGIN -->
+        <form id="loginForm" onsubmit="doLogin(event)" novalidate>
+          <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Email</label>
+          <input id="loginEmail" type="email" class="field mb-4" placeholder="you@example.com" autocomplete="email">
+          <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Password</label>
+          <div class="relative mb-2">
+            <input id="loginPass" type="password" class="field pr-12" placeholder="••••••••" autocomplete="current-password">
+            <button type="button" onclick="togglePass('loginPass',this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-cocoa-400 hover:text-blush-500 transition p-1" aria-label="Show password">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <p id="loginErr" class="hidden text-sm font-bold text-blush-600 mb-2"></p>
+          <button type="submit" class="btn-primary w-full mt-4">Log In <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+          <p class="text-center text-xs font-semibold text-cocoa-400 mt-5">New here? <button type="button" onclick="authTab('signup')" class="text-blush-500 font-extrabold hover:underline">Create an account</button></p>
+        </form>
+
+        <!-- SIGNUP -->
+        <form id="signupForm" class="hidden" onsubmit="doSignup(event)" novalidate>
+          <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Your name</label>
+          <input id="suName" type="text" class="field mb-4" placeholder="Maya Bloom" autocomplete="name">
+          <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Email</label>
+          <input id="suEmail" type="email" class="field mb-4" placeholder="you@example.com" autocomplete="email">
+          <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Password</label>
+          <div class="relative mb-2">
+            <input id="suPass" type="password" class="field pr-12" placeholder="At least 6 characters" autocomplete="new-password">
+            <button type="button" onclick="togglePass('suPass',this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-cocoa-400 hover:text-blush-500 transition p-1" aria-label="Show password">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <p id="suErr" class="hidden text-sm font-bold text-blush-600 mb-2"></p>
+          <button type="submit" class="btn-primary w-full mt-4">Create My Account</button>
+          <p class="text-center text-xs font-semibold text-cocoa-400 mt-5">Already have one? <button type="button" onclick="authTab('login')" class="text-blush-500 font-extrabold hover:underline">Log in</button></p>
+        </form>
+      </div>
+      <p class="text-center text-xs font-semibold text-cocoa-400 mt-6">This is a demo shop — your details stay in your browser only.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app" class="hidden">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-40 bg-cream/85 backdrop-blur-md border-b border-blush-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between gap-3">
+      <a onclick="showPage('home')" class="flex items-center gap-2.5 cursor-pointer shrink-0">
+        <svg viewBox="0 0 48 48" class="w-9 h-9 md:w-10 md:h-10"><circle cx="24" cy="24" r="18" fill="#E5AFBF"/><path d="M9 20c8-6 22-6 30 0M8 27c9 7 23 7 32 0M17 8c-4 10-4 22 0 32M31 8c4 10 4 22 0 32" stroke="#FBF1F3" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M33 36c4 3 8 4 12 3" stroke="#C4758E" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+        <span class="font-display font-bold text-xl md:text-2xl text-cocoa-700">Loop <span class="text-blush-500">&amp;</span> Bloom</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1" id="desktopNav">
+        <a class="nav-link active" data-nav="home" onclick="showPage('home')">Home</a>
+        <a class="nav-link" data-nav="products" onclick="showPage('products')">Products</a>
+        <a class="nav-link" data-nav="about" onclick="showPage('about')">About</a>
+      </nav>
+
+      <div class="flex items-center gap-2 md:gap-2.5">
+        <span id="navUser" class="hidden lg:flex items-center gap-2 text-sm font-extrabold text-cocoa-500 bg-white border border-blush-100 rounded-full pl-3 pr-4 py-2">
+          <svg class="w-4 h-4 text-blush-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Hi, <span id="navUserName"></span>
+        </span>
+
+        <button onclick="showPage('cart')" aria-label="Cart" class="relative p-2.5 rounded-full bg-white border border-blush-100 text-cocoa-600 hover:text-blush-500 hover:border-blush-300 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.5l1.7 10.2a1.5 1.5 0 0 0 1.48 1.25h9.9a1.5 1.5 0 0 0 1.47-1.18L20.25 7.5H5.25"/><circle cx="9" cy="19" r="1.4"/><circle cx="16.5" cy="19" r="1.4"/></svg>
+          <span id="cartBadge" class="hidden absolute -top-1.5 -right-1.5 min-w-[1.3rem] h-[1.3rem] px-1 bg-blush-500 text-white text-[11px] font-extrabold rounded-full flex items-center justify-center"></span>
+        </button>
+
+        <button onclick="logout()" aria-label="Log out" class="hidden sm:flex p-2.5 rounded-full bg-white border border-blush-100 text-cocoa-400 hover:text-blush-600 hover:border-blush-300 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        </button>
+
+        <button onclick="toggleMobileMenu()" aria-label="Menu" class="md:hidden p-2.5 rounded-full bg-white border border-blush-100 text-cocoa-600" id="hamburger">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-blush-100 px-4 py-3 space-y-1">
+      <a onclick="showPage('home');closeMobileMenu()" class="mm-link">Home</a>
+      <a onclick="showPage('products');closeMobileMenu()" class="mm-link">Products</a>
+      <a onclick="showPage('about');closeMobileMenu()" class="mm-link">About</a>
+      <a onclick="showPage('cart');closeMobileMenu()" class="mm-link flex items-center justify-between">Basket <span id="mmCartCount" class="bg-blush-100 text-blush-600 text-xs font-extrabold rounded-full px-2.5 py-1">0</span></a>
+      <button onclick="logout()" class="mm-link text-left text-blush-600">Log out</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HOME ============ -->
+    <section id="page-home" class="app-page">
+      <!-- HERO -->
+      <div class="relative overflow-hidden">
+        <div class="absolute -top-32 -right-32 w-[30rem] h-[30rem] bg-blush-100 rounded-full blur-3xl opacity-70"></div>
+        <div class="absolute top-64 -left-40 w-96 h-96 bg-sage-100 rounded-full blur-3xl opacity-70"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 pt-12 md:pt-20 pb-16 md:pb-24 grid lg:grid-cols-2 gap-14 items-center">
+          <div class="text-center lg:text-left">
+            <span class="inline-flex items-center gap-2 bg-white border border-blush-200 rounded-full px-4 py-2 text-xs font-extrabold text-blush-600 shadow-sm mb-6">
+              <svg viewBox="0 0 48 48" class="w-4 h-4"><circle cx="24" cy="24" r="18" fill="#E5AFBF"/><path d="M9 20c8-6 22-6 30 0M8 27c9 7 23 7 32 0" stroke="#FBF1F3" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+              100% HANDMADE WITH LOVE
+            </span>
+            <h1 class="font-display font-bold text-4xl sm:text-5xl xl:text-6xl text-cocoa-700 leading-[1.12] mb-6">
+              Soft, handmade crochet for every
+              <span class="relative inline-block text-blush-600">cozy
+                <svg class="absolute -bottom-1.5 left-0 w-full" height="10" viewBox="0 0 120 12" preserveAspectRatio="none"><path d="M2 8 Q12 2 22 8 T42 8 T62 8 T82 8 T102 8 T118 8" fill="none" stroke="#E5AFBF" stroke-width="3.5" stroke-linecap="round"/></svg>
+              </span>
+              corner
+            </h1>
+            <p class="text-cocoa-500 text-lg leading-relaxed max-w-xl mx-auto lg:mx-0 mb-8">From squishy amigurumi friends to snugly blankets — every piece at Loop &amp; Bloom is crocheted slowly, one loop at a time, in my little sunlit studio.</p>
+            <div class="flex flex-wrap gap-3.5 justify-center lg:justify-start">
+              <button onclick="showPage('products')" class="btn-primary">Shop the Collection
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+              <button onclick="showPage('about')" class="btn-ghost">Our Story</button>
+            </div>
+            <div class="flex flex-wrap gap-x-6 gap-y-2 justify-center lg:justify-start mt-8 text-sm font-bold text-cocoa-400">
+              <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-sage-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg>Free shipping over $60</span>
+              <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-sage-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg>Made to order</span>
+              <span class="flex items-center gap-1.5"><svg class="w-4 h-4 text-sage-500" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg>850+ happy customers</span>
+            </div>
+          </div>
+
+          <div class="relative max-w-md mx-auto w-full">
+            <div class="absolute inset-4 arch border-2 border-dashed border-blush-300 translate-x-4 translate-y-4" ></div>
+            <div class="relative arch overflow-hidden shadow-lift ring-8 ring-white bg-blush-100">
+              <img src="https://images.unsplash.com/photo-1607344645866-009c320b63e0?auto=format&fit=crop&w=900&q=75" onerror="this.onerror=null;this.src='https://picsum.photos/seed/cozyloops/900/1100';" alt="Hands crocheting" class="w-full aspect-[4/5] object-cover">
+            </div>
+
+            <!-- rotating sticker -->
+            <div class="absolute -left-8 top-16 w-28 h-28 hidden sm:block animate-float">
+              <svg viewBox="0 0 100 100" class="w-full h-full animate-spin-slow drop-shadow-md">
+                <circle cx="50" cy="50" r="48" fill="#fff"/>
+                <defs><path id="circPath" d="M50,50 m-34,0 a34,34 0 1,1 68,0 a34,34 0 1,1 -68,0"/></defs>
+                <text font-size="9.5" font-weight="700" letter-spacing="2.2" fill="#C4758E"><textPath href="#circPath">HANDMADE WITH LOVE • SOFT YARNS • </textPath></text>
+                <path d="M50 60c-4-3-9-6.5-9-10.5 0-2.6 2-4.5 4.4-4.5 1.7 0 3.2.9 4.6 2.6 1.4-1.7 2.9-2.6 4.6-2.6 2.4 0 4.4 1.9 4.4 4.5 0 4-5 7.5-9 10.5z" fill="#C4758E"/>
+              </svg>
+            </div>
+
+            <!-- floating product mini-card -->
+            <div class="absolute -left-4 sm:-left-12 bottom-10 bg-white rounded-2xl p-3 pr-5 flex items-center gap-3 shadow-lift animate-float-slow cursor-pointer hover:-translate-y-1 transition" onclick="showPage('products')">
+              <img src="https://images.unsplash.com/photo-1615484477778-ca3b77940c25?auto=format&fit=crop&w=200&q=70" onerror="this.onerror=null;this.src='https://picsum.photos/seed/bunnyplush/200/200';" class="w-14 h-14 rounded-xl object-cover bg-blush-100" alt="Boo the Bunny">
+              <div>
+                <p class="font-display font-bold text-sm text-cocoa-700">Boo the Bunny</p>
+                <p class="text-blush-600 font-extrabold text-sm">$26.00</p>
+              </div>
+              <span class="ml-1 w-8 h-8 rounded-full bg-blush-100 text-blush-500 flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>
+              </span>
+            </div>
+
+            <!-- floating review card -->
+            <div class="absolute -right-2 sm:-right-8 top-6 bg-white rounded-2xl px-4 py-3 shadow-lift animate-float">
+              <div class="flex gap-0.5 mb-1">
+                <svg class="w-3.5 h-3.5 text-honey" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.3 4a1 1 0 0 0 .95.69h4.2c.97 0 1.37 1.24.59 1.81l-3.4 2.47a1 1 0 0 0-.36 1.12l1.3 4c.3.92-.76 1.69-1.54 1.12l-3.4-2.47a1 1 0 0 0-1.18 0l-3.4 2.47c-.78.57-1.84-.2-1.54-1.12l1.3-4a1 1 0 0 0-.36-1.12L2 9.43c-.78-.57-.38-1.81.6-1.81h4.2a1 1 0 0 0 .94-.69l1.3-4Z"/></svg>
+                <svg class="w-3.5 h-3.5 text-honey" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.3 4a1 1 0 0 0 .95.69h4.2c.97 0 1.37 1.24.59 1.81l-3.4 2.47a1 1 0 0 0-.36 1.12l1.3 4c.3.92-.76 1.69-1.54 1.12l-3.4-2.47a1 1 0 0 0-1.18 0l-3.4 2.47c-.78.57-1.84-.2-1.54-1.12l1.3-4a1 1 0 0 0-.36-1.12L2 9.43c-.78-.57-.38-1.81.6-1.81h4.2a1 1 0 0 0 .94-.69l1.3-4Z"/></svg>
+                <svg class="w-3.5 h-3.5 text-honey" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.3 4a1 1 0 0 0 .95.69h4.2c.97 0 1.37 1.24.59 1.81l-3.4 2.47a1 1 0 0 0-.36 1.12l1.3 4c.3.92-.76 1.69-1.54 1.12l-3.4-2.47a1 1 0 0 0-1.18 0l-3.4 2.47c-.78.57-1.84-.2-1.54-1.12l1.3-4a1 1 0 0 0-.36-1.12L2 9.43c-.78-.57-.38-1.81.6-1.81h4.2a1 1 0 0 0 .94-.69l1.3-4Z"/></svg>
+                <svg class="w-3.5 h-3.5 text-honey" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.3 4a1 1 0 0 0 .95.69h4.2c.97 0 1.37 1.24.59 1.81l-3.4 2.47a1 1 0 0 0-.36 1.12l1.3 4c.3.92-.76 1.69-1.54 1.12l-3.4-2.47a1 1 0 0 0-1.18 0l-3.4 2.47c-.78.57-1.84-.2-1.54-1.12l1.3-4a1 1 0 0 0-.36-1.12L2 9.43c-.78-.57-.38-1.81.6-1.81h4.2a1 1 0 0 0 .94-.69l1.3-4Z"/></svg>
+                <svg class="w-3.5 h-3.5 text-honey" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.3 4a1 1 0 0 0 .95.69h4.2c.97 0 1.37 1.24.59 1.81l-3.4 2.47a1 1 0 0 0-.36 1.12l1.3 4c.3.92-.76 1.69-1.54 1.12l-3.4-2.47a1 1 0 0 0-1.18 0l-3.4 2.47c-.78.57-1.84-.2-1.54-1.12l1.3-4a1 1 0 0 0-.36-1.12L2 9.43c-.78-.57-.38-1.81.6-1.81h4.2a1 1 0 0 0 .94-.69l1.3-4Z"/></svg>
+              </div>
+              <p class="text-xs font-extrabold text-cocoa-600">"Obsessed with my order!"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <svg viewBox="0 0 1440 80" class="w-full h-10 md:h-16 -mb-px" preserveAspectRatio="none"><path fill="#FFFFFF" d="M0,44 C240,84 480,4 720,40 C960,76 1200,8 1440,44 L1440,80 L0,80 Z"/></svg>
+
+      <!-- CATEGORIES -->
+      <div class="bg-white py-14 md:py-18">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <h2 class="font-display font-bold text-2xl md:text-3xl text-cocoa-700 text-center mb-2">Browse by category</h2>
+          <p class="text-cocoa-400 text-center font-semibold mb-8">Pick a cozy lane — there's something for everyone.</p>
+          <div class="flex gap-3 md:gap-4 justify-start sm:justify-center overflow-x-auto pb-2 px-1">
+            <button onclick="goCat('All')" class="cat-chip shrink-0 w-28 md:w-32 bg-blush-50 hover:bg-blush-100 rounded-3xl p-4 flex flex-col items-center gap-2.5 transition border-2 border-transparent hover:border-blush-300">
+              <span class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-blush-500 shadow-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h12a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2V6z"/><path stroke-linecap="round" d="M4 10h16M10 15v4M14 15v4M8 19h8"/></svg></span>
+              <span class="text-sm font-extrabold text-cocoa-600">All</span>
+            </button>
+            <button onclick="goCat('Wearables')" class="cat-chip shrink-0 w-28 md:w-32 bg-sage-50 hover:bg-sage-100 rounded-3xl p-4 flex flex-col items-center gap-2.5 transition border-2 border-transparent hover:border-sage-300">
+              <span class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-sage-500 shadow-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></span>
+              <span class="text-sm font-extrabold text-cocoa-600">Wearables</span>
+            </button>
+            <button onclick="goCat('Plushies')" class="cat-chip shrink-0 w-28 md:w-32 bg-lilac-100 hover:bg-lilac-200 rounded-3xl p-4 flex flex-col items-center gap-2.5 transition border-2 border-transparent hover:border-lilac-300">
+              <span class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-lilac-300 shadow-sm"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><circle cx="7" cy="8" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="17" cy="8" r="2"/><path d="M12 12c-3 0-5.5 2.4-5.5 5 0 1.7 1.3 3 3 3 .9 0 1.7-.3 2.5-.3s1.6.3 2.5.3c1.7 0 3-1.3 3-3 0-2.6-2.5-5-5.5-5z"/></svg></span>
+              <span class="text-sm font-extrabold text-cocoa-600">Plushies</span>
+            </button>
+            <button onclick="goCat('Home')" class="cat-chip shrink-0 w-28 md:w-32 bg-butter-100 hover:bg-butter-200 rounded-3xl p-4 flex flex-col items-center gap-2.5 transition border-2 border-transparent hover:border-butter-300">
+              <span class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-honey shadow-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 22V12h6v10"/></svg></span>
+              <span class="text-sm font-extrabold text-cocoa-600">Home</span>
+            </button>
+            <button onclick="goCat('Nursery')" class="cat-chip shrink-0 w-28 md:w-32 bg-blush-50 hover:bg-blush-100 rounded-3xl p-4 flex flex-col items-center gap-2.5 transition border-2 border-transparent hover:border-blush-300">
+              <span class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-blush-400 shadow-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+              <span class="text-sm font-extrabold text-cocoa-600">Nursery</span>
+            </button>
+            <button onclick="goCat('Bags')" class="cat-chip shrink-0 w-28 md:w-32 bg-sage-50 hover:bg-sage-100 rounded-3xl p-4 flex flex-col items-center gap-2.5 transition border-2 border-transparent hover:border-sage-300">
+              <span class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-sage-400 shadow-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path stroke-linecap="round" d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></span>
+              <span class="text-sm font-extrabold text-cocoa-600">Bags</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-6xl mx-auto px-4 sm:px-6"><div class="stitch"></div></div>
+
+      <!-- FEATURED -->
+      <div class="py-16 md:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+          <div class="flex items-end justify-between mb-8">
+            <div>
+              <p class="text-xs font-extrabold uppercase tracking-widest text-blush-500 mb-1.5">Customer favourites</p>
+              <h2 class="font-display font-bold text-2xl md:text-3xl text-cocoa-700">Fresh off the hook</h2>
+            </div>
+            <button onclick="showPage('products')" class="btn-ghost !py-2.5 !px-5 text-sm">View all
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+          <div id="featuredGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"></div>
+        </div>
+      </div>
+
+      <!-- VALUES -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 pb-16 md:pb-20">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          <div class="bg-white rounded-3xl p-6 border border-blush-100 shadow-soft">
+            <span class="w-12 h-12 rounded-2xl bg-blush-100 text-blush-500 flex items-center justify-center mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 2a3.5 3.5 0 1 1 0 7l-1.2 1.2L6.5 21"/><path stroke-linecap="round" d="M13.8 10.2 16.2 12.6"/></svg></span>
+            <h3 class="font-display font-bold text-lg text-cocoa-700 mb-1.5">Made to Order</h3>
+            <p class="text-sm font-semibold text-cocoa-400 leading-relaxed">Every piece is crocheted after you order — fresh, never mass-produced.</p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 border border-blush-100 shadow-soft">
+            <span class="w-12 h-12 rounded-2xl bg-sage-100 text-sage-500 flex items-center justify-center mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path stroke-linecap="round" d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span>
+            <h3 class="font-display font-bold text-lg text-cocoa-700 mb-1.5">Kind Materials</h3>
+            <p class="text-sm font-semibold text-cocoa-400 leading-relaxed">Soft cotton and acrylic yarns, ethically sourced and gentle on skin.</p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 border border-blush-100 shadow-soft">
+            <span class="w-12 h-12 rounded-2xl bg-butter-100 text-honey flex items-center justify-center mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="1" y="6" width="13" height="11" rx="1.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4l4 3.5V17h-8"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg></span>
+            <h3 class="font-display font-bold text-lg text-cocoa-700 mb-1.5">Plastic-Free Shipping</h3>
+            <p class="text-sm font-semibold text-cocoa-400 leading-relaxed">Wrapped in tissue and twine with a handwritten note — always.</p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 border border-blush-100 shadow-soft">
+            <span class="w-12 h-12 rounded-2xl bg-lilac-100 text-lilac-300 flex items-center justify-center mb-4"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 3l1.9 4.6 4.6 1.9-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/><path d="M19 14l.9 2.1L22 17l-2.1.9L19 20l-.9-2.1L16 17l2.1-.9L19 14z"/></svg></span>
+            <h3 class="font-display font-bold text-lg text-cocoa-700 mb-1.5">One of a Kind</h3>
+            <p class="text-sm font-semibold text-cocoa-400 leading-relaxed">Tiny variations are the magic of handmade — yours is truly unique.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- TESTIMONIALS -->
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 pb-16 md:pb-20">
+        <div class="bg-blush-50 rounded-[2.5rem] px-6 sm:px-12 py-12 text-center relative overflow-hidden">
+          <svg class="absolute -top-6 -left-4 w-32 h-32 text-blush-200/60" fill="currentColor" viewBox="0 0 24 24"><path d="M10 7c-3 1-5 3.5-5 7v3h6v-6H8c0-1.6 1-2.8 2.8-3.4L10 7zm9 0c-3 1-5 3.5-5 7v3h6v-6h-3c0-1.6 1-2.8 2.8-3.4L19 7z"/></svg>
+          <div id="tCard" class="relative">
+            <p id="tQuote" class="font-display font-bold text-xl md:text-2xl text-cocoa-700 leading-relaxed max-w-2xl mx-auto mb-6"></p>
+            <div class="flex items-center justify-center gap-3">
+              <span id="tAvatar" class="w-12 h-12 rounded-full flex items-center justify-center font-display font-bold text-white"></span>
+              <div class="text-left">
+                <p id="tName" class="font-extrabold text-cocoa-700 text-sm"></p>
+                <p id="tRole" class="text-xs font-semibold text-cocoa-400"></p>
+              </div>
+            </div>
+          </div>
+          <div id="tDots" class="flex justify-center gap-2 mt-8"></div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 pb-20">
+        <div class="bg-sage-100 rounded-[2.5rem] px-8 py-14 text-center relative overflow-hidden">
+          <svg viewBox="0 0 48 48" class="absolute left-8 bottom-8 w-16 h-16 opacity-40 animate-float"><circle cx="24" cy="24" r="17" fill="#7FA791"/><path d="M10 20c8-5 20-5 28 0M9 27c8 6 22 6 30 0" stroke="#F2F6F3" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+          <svg viewBox="0 0 48 48" class="absolute right-10 top-8 w-12 h-12 opacity-40 animate-float-slow"><circle cx="24" cy="24" r="17" fill="#D692A6"/><path d="M10 20c8-5 20-5 28 0M9 27c8 6 22 6 30 0" stroke="#FBF1F3" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+          <h2 class="font-display font-bold text-2xl md:text-4xl text-cocoa-700 mb-3">Ready to get cozy?</h2>
+          <p class="text-cocoa-500 font-semibold max-w-lg mx-auto mb-8">Pick your favourite piece and I'll start crocheting it for you this week. Every order gets a handwritten thank-you note.</p>
+          <button onclick="showPage('products')" class="btn-primary !bg-cocoa-600 hover:!bg-cocoa-700">Browse the Full Collection
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PRODUCTS ============ -->
+    <section id="page-products" class="app-page hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+        <div class="text-center mb-8">
+          <p class="text-xs font-extrabold uppercase tracking-widest text-blush-500 mb-2">The Collection</p>
+          <h1 class="font-display font-bold text-3xl md:text-4xl text-cocoa-700 mb-3">Made by hand, made for you</h1>
+          <p class="text-cocoa-400 font-semibold max-w-xl mx-auto">Every piece is crocheted to order in my little sunlit studio. Allow 3–7 days of stitching before your parcel ships.</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-4 md:items-center md:justify-between mb-8">
+          <div class="relative md:w-80">
+            <svg class="w-5 h-5 text-cocoa-400 absolute left-4 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="M21 21l-4.35-4.35"/></svg>
+            <input id="searchInput" oninput="onSearch(this.value)" type="text" class="field !pl-11" placeholder="Search for something cozy...">
+          </div>
+          <div id="catPills" class="flex gap-2 overflow-x-auto pb-1.5 md:pb-0"></div>
+        </div>
+
+        <p id="resultCount" class="text-sm font-bold text-cocoa-400 mb-5"></p>
+        <div id="productGrid" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6"></div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section id="page-about" class="app-page hidden">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+        <div class="text-center mb-12">
+          <p class="text-xs font-extrabold uppercase tracking-widest text-blush-500 mb-2">Behind the Loops</p>
+          <h1 class="font-display font-bold text-3xl md:text-4xl text-cocoa-700 mb-3">Hi, I'm Maya — the hands behind the hooks</h1>
+          <p class="text-cocoa-400 font-semibold max-w-xl mx-auto">Loop &amp; Bloom started with one ball of blush-pink yarn and a very patient cat.</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center mb-16">
+          <div class="relative max-w-md mx-auto w-full">
+            <div class="absolute inset-3 arch border-2 border-dashed border-sage-300 translate-x-4 translate-y-4"></div>
+            <div class="relative arch overflow-hidden ring-8 ring-white shadow-lift bg-sage-100">
+              <img src="https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=900&q=75" onerror="this.onerror=null;this.src='https://picsum.photos/seed/yarnskeins/900/1100';" alt="Colourful yarn" class="w-full aspect-[4/5] object-cover">
+            </div>
+            <div class="absolute -right-3 bottom-8 bg-white rounded-2xl px-4 py-3 shadow-lift animate-float">
+              <p class="font-display font-bold text-2xl text-blush-600">6 yrs</p>
+              <p class="text-xs font-bold text-cocoa-400">of happy hooking</p>
+            </div>
+          </div>
+          <div>
+            <h2 class="font-display font-bold text-2xl text-cocoa-700 mb-4">From a hobby to a happy little shop</h2>
+            <p class="font-semibold text-cocoa-500 leading-relaxed mb-4">My grandmother taught me to crochet at her kitchen table when I was nine, and I never really put the hook down. What began as gifts for friends slowly grew into Loop &amp; Bloom — a one-woman studio where every blanket, plushie, and beanie is made slowly and with intention.</p>
+            <p class="font-semibold text-cocoa-500 leading-relaxed mb-4">I choose soft, ethically-sourced yarns, crochet everything to order (no dusty warehouse stock here!), and wrap each parcel by hand with tissue, twine, and a little note just for you.</p>
+            <p class="font-semibold text-cocoa-500 leading-relaxed">When I'm not crocheting, you'll find me sipping lavender tea, rearranging my yarn wall for the hundredth time, or being "supervised" by my cat, Miso.</p>
+            <div class="flex gap-3 mt-7">
+              <button onclick="showPage('products')" class="btn-primary">Shop My Work</button>
+              <button onclick="showPage('home')" class="btn-ghost">Back Home</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROCESS -->
+        <div class="text-center mb-10">
+          <h2 class="font-display font-bold text-2xl md:text-3xl text-cocoa-700 mb-2">How your piece comes to life</h2>
+          <p class="text-cocoa-400 font-semibold">From a squishy skein to your doorstep.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-5 mb-16">
+          <div class="bg-white rounded-3xl p-6 border border-blush-100 shadow-soft text-center">
+            <div class="w-12 h-12 mx-auto rounded-full border-2 border-dashed border-blush-400 text-blush-500 font-display font-bold flex items-center justify-center mb-4">1</div>
+            <h3 class="font-display font-bold text-lg text-cocoa-700 mb-1.5">Pick the Yarn</h3>
+            <p class="text-sm font-semibold text-cocoa-400 leading-relaxed">I hand-select soft, quality yarns in calm, muted colours.</p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 border border-blush-100 shadow-soft text-center">
+            <div class="w-12 h-12 mx-auto rounded-full border-2 border-dashed border-blush-400 text-blush-500 font-display font-bold flex items-center justify-center mb-4">2</div>
+            <h3 class="font-display font-bold text-lg text-cocoa-700 mb-1.5">Hook &amp; Loop</h3>
+            <p class="text-sm font-semibold text-cocoa-400 leading-relaxed">Your order is crocheted stitch by stitch — usually with tea in reach.</p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 border border-blush-100 shadow-soft text-center">
+            <div class="w-12 h-12 mx-auto rounded-full border-2 border-dashed border-blush-400 text-blush-500 font-display font-bold flex items-center justify-center mb-4">3</div>
+            <h3 class="font-display font-bold text-lg text-cocoa-700 mb-1.5">Quality Check</h3>
+            <p class="text-sm font-semibold text-cocoa-400 leading-relaxed">Every stitch is inspected, tails woven, and pieces gently blocked.</p>
+          </div>
+          <div class="bg-white rounded-3xl p-6 border border-blush-100 shadow-soft text-center">
+            <div class="w-12 h-12 mx-auto rounded-full border-2 border-dashed border-blush-400 text-blush-500 font-display font-bold flex items-center justify-center mb-4">4</div>
+            <h3 class="font-display font-bold text-lg text-cocoa-700 mb-1.5">Wrapped &amp; Shipped</h3>
+            <p class="text-sm font-semibold text-cocoa-400 leading-relaxed">Plastic-free packaging, a handwritten note, and off it goes!</p>
+          </div>
+        </div>
+
+        <!-- STATS + QUOTE -->
+        <div class="bg-blush-100 rounded-[2.5rem] p-8 md:p-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-center mb-14">
+          <div><p class="font-display font-bold text-3xl md:text-4xl text-blush-600">1,200+</p><p class="text-sm font-bold text-cocoa-400 mt-1">items crocheted</p></div>
+          <div><p class="font-display font-bold text-3xl md:text-4xl text-blush-600">850+</p><p class="text-sm font-bold text-cocoa-400 mt-1">happy customers</p></div>
+          <div><p class="font-display font-bold text-3xl md:text-4xl text-blush-600">6</p><p class="text-sm font-bold text-cocoa-400 mt-1">years of crafting</p></div>
+          <div><p class="font-display font-bold text-3xl md:text-4xl text-blush-600">100%</p><p class="text-sm font-bold text-cocoa-400 mt-1">made by hand</p></div>
+        </div>
+
+        <div class="max-w-2xl mx-auto text-center">
+          <svg class="w-10 h-10 mx-auto text-blush-300 mb-4" fill="currentColor" viewBox="0 0 24 24"><path d="M10 7c-3 1-5 3.5-5 7v3h6v-6H8c0-1.6 1-2.8 2.8-3.4L10 7zm9 0c-3 1-5 3.5-5 7v3h6v-6h-3c0-1.6 1-2.8 2.8-3.4L19 7z"/></svg>
+          <p class="font-display font-bold text-xl md:text-2xl text-cocoa-700 leading-relaxed mb-3">"Crochet is proof that slow things matter. In a world of mass production, a handmade piece carries the quiet hours of someone who cared."</p>
+          <p class="text-sm font-extrabold text-cocoa-400">— Maya, founder of Loop &amp; Bloom</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CART ============ -->
+    <section id="page-cart" class="app-page hidden">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+        <div class="text-center mb-10">
+          <p class="text-xs font-extrabold uppercase tracking-widest text-blush-500 mb-2">Almost yours</p>
+          <h1 class="font-display font-bold text-3xl md:text-4xl text-cocoa-700">Your Basket</h1>
+        </div>
+
+        <!-- empty state -->
+        <div id="cartEmpty" class="hidden max-w-md mx-auto text-center py-10">
+          <svg viewBox="0 0 48 48" class="w-24 h-24 mx-auto mb-6 opacity-70 animate-float"><circle cx="24" cy="24" r="18" fill="#F0CED8"/><path d="M9 20c8-6 22-6 30 0M8 27c9 7 23 7 32 0M17 8c-4 10-4 22 0 32M31 8c4 10 4 22 0 32" stroke="#FBF1F3" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M33 36c4 3 8 4 12 3" stroke="#C4758E" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+          <h2 class="font-display font-bold text-2xl text-cocoa-700 mb-2">Your basket is feeling lonely</h2>
+          <p class="text-cocoa-400 font-semibold mb-7">Add a few cozy treasures and it'll be overflowing with handmade joy.</p>
+          <button onclick="showPage('products')" class="btn-primary">Start Shopping
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- cart content -->
+        <div id="cartContent" class="grid lg:grid-cols-3 gap-8 items-start">
+          <div class="lg:col-span-2 space-y-4">
+            <div id="cartItems" class="space-y-4"></div>
+            <button onclick="showPage('products')" class="btn-ghost !py-2.5 !px-5 text-sm mt-2">
+              <svg class="w-4 h-4 rotate-180" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+              Continue shopping
+            </button>
+          </div>
+
+          <div class="bg-white rounded-[2rem] border-2 border-dashed border-blush-200 p-6 lg:sticky lg:top-24 shadow-soft">
+            <h3 class="font-display font-bold text-xl text-cocoa-700 mb-5">Order Summary</h3>
+
+            <div class="bg-sage-50 rounded-2xl p-4 mb-5">
+              <p id="shipText" class="text-sm font-bold text-sage-500 mb-2.5"></p>
+              <div class="h-2 bg-white rounded-full overflow-hidden">
+                <div id="shipBar" class="h-full bg-sage-400 rounded-full transition-all duration-500" style="width:0%"></div>
+              </div>
+            </div>
+
+            <div class="space-y-3 text-sm font-bold">
+              <div class="flex justify-between"><span class="text-cocoa-400">Subtotal</span><span id="cartSub" class="text-cocoa-700"></span></div>
+              <div class="flex justify-between"><span class="text-cocoa-400">Shipping</span><span id="cartShip" class="text-cocoa-700"></span></div>
+              <div class="stitch my-3"></div>
+              <div class="flex justify-between items-center">
+                <span class="text-cocoa-700 font-display font-bold text-lg">Total</span>
+                <span id="cartTotal" class="font-display font-bold text-2xl text-blush-600"></span>
+              </div>
+            </div>
+
+            <button onclick="showPage('payment')" class="btn-primary w-full mt-6">Checkout
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <p class="text-xs font-semibold text-cocoa-400 text-center mt-4">Secure checkout &bull; Easy 14-day returns</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PAYMENT ============ -->
+    <section id="page-payment" class="app-page hidden">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 md:py-14">
+        <!-- steps -->
+        <div id="paySteps" class="flex items-center justify-center mb-10">
+          <div class="flex items-center gap-2">
+            <span class="w-9 h-9 rounded-full bg-sage-500 text-white flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg></span>
+            <span class="text-sm font-extrabold text-sage-500 hidden sm:block">Basket</span>
+          </div>
+          <div class="w-10 sm:w-20 h-0.5 bg-sage-300"></div>
+          <div class="flex items-center gap-2">
+            <span class="w-9 h-9 rounded-full bg-blush-500 text-white font-display font-bold text-sm flex items-center justify-center">2</span>
+            <span class="text-sm font-extrabold text-blush-600 hidden sm:block">Details</span>
+          </div>
+          <div class="w-10 sm:w-20 h-0.5 bg-blush-100"></div>
+          <div class="flex items-center gap-2">
+            <span class="w-9 h-9 rounded-full bg-blush-100 text-cocoa-400 font-display font-bold text-sm flex items-center justify-center">3</span>
+            <span class="text-sm font-extrabold text-cocoa-400 hidden sm:block">Done</span>
+          </div>
+        </div>
+
+        <div id="payContent" class="grid lg:grid-cols-5 gap-8 items-start">
+          <!-- form -->
+          <form id="payForm" class="lg:col-span-3 space-y-8" onsubmit="placeOrder(event)" novalidate>
+            <div class="bg-white rounded-[2rem] border border-blush-100 p-6 sm:p-8 shadow-soft">
+              <h2 class="font-display font-bold text-xl text-cocoa-700 mb-1">Shipping details</h2>
+              <p class="text-sm font-semibold text-cocoa-400 mb-6">Where should the coziness go?</p>
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Full name</label>
+                  <input id="shName" type="text" class="field" placeholder="Maya Bloom">
+                </div>
+                <div>
+                  <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Email</label>
+                  <input id="shEmail" type="email" class="field" placeholder="you@example.com">
+                </div>
+                <div>
+                  <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Phone</label>
+                  <input id="shPhone" type="tel" class="field" placeholder="(555) 123-4567">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Street address</label>
+                  <input id="shAddr" type="text" class="field" placeholder="123 Lavender Lane, Apt 4">
+                </div>
+                <div>
+                  <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">City</label>
+                  <input id="shCity" type="text" class="field" placeholder="Portland">
+                </div>
+                <div>
+                  <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">ZIP / Postal code</label>
+                  <input id="shZip" type="text" class="field" placeholder="97201">
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Country</label>
+                  <select id="shCountry" class="field">
+                    <option value="">Choose your country</option>
+                    <option>United States</option><option>Canada</option><option>United Kingdom</option>
+                    <option>Australia</option><option>Germany</option><option>France</option><option>Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-[2rem] border border-blush-100 p-6 sm:p-8 shadow-soft">
+              <h2 class="font-display font-bold text-xl text-cocoa-700 mb-1">Payment method</h2>
+              <p class="text-sm font-semibold text-cocoa-400 mb-6">All transactions are encrypted and secure.</p>
+
+              <div class="grid sm:grid-cols-2 gap-3 mb-6">
+                <div id="optCard" class="method-opt selected" onclick="setMethod('card')">
+                  <svg class="w-7 h-7 text-blush-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path stroke-linecap="round" d="M2 10h20M6 15h4"/></svg>
+                  <div><p class="font-extrabold text-sm text-cocoa-700">Card</p><p class="text-xs font-semibold text-cocoa-400">Credit or debit</p></div>
+                  <span class="radio-dot"></span>
+                </div>
+                <div id="optCod" class="method-opt" onclick="setMethod('cod')">
+                  <svg class="w-7 h-7 text-sage-500" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="1" y="6" width="13" height="11" rx="1.5"/><path stroke-linecap="round" stroke-linejoin="round" d="M14 10h4l4 3.5V17h-8"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="17.5" cy="18.5" r="2"/></svg>
+                  <div><p class="font-extrabold text-sm text-cocoa-700">Cash on delivery</p><p class="text-xs font-semibold text-cocoa-400">Pay when it arrives</p></div>
+                  <span class="radio-dot"></span>
+                </div>
+              </div>
+
+              <div id="cardFields">
+                <div class="flex items-center justify-between mb-4">
+                  <p class="text-xs font-extrabold uppercase tracking-wide text-cocoa-400">Card details</p>
+                  <div class="flex gap-1.5">
+                    <span class="text-[10px] font-black text-cocoa-400 bg-blush-50 border border-blush-100 rounded-md px-2 py-1">VISA</span>
+                    <span class="text-[10px] font-black text-cocoa-400 bg-blush-50 border border-blush-100 rounded-md px-2 py-1">MC</span>
+                    <span class="text-[10px] font-black text-cocoa-400 bg-blush-50 border border-blush-100 rounded-md px-2 py-1">AMEX</span>
+                  </div>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                  <div class="sm:col-span-2">
+                    <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Name on card</label>
+                    <input id="ccName" type="text" class="field" placeholder="MAYA BLOOM">
+                  </div>
+                  <div class="sm:col-span-2">
+                    <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Card number</label>
+                    <div class="relative">
+                      <input id="ccNum" type="text" inputmode="numeric" class="field pr-11" placeholder="4242 4242 4242 4242" maxlength="19">
+                      <svg class="w-5 h-5 text-cocoa-400 absolute right-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">Expiry</label>
+                    <input id="ccExp" type="text" inputmode="numeric" class="field" placeholder="MM/YY" maxlength="5">
+                  </div>
+                  <div>
+                    <label class="block text-xs font-extrabold uppercase tracking-wide text-cocoa-400 mb-1.5">CVC</label>
+                    <input id="ccCvc" type="text" inputmode="numeric" class="field" placeholder="123" maxlength="4">
+                  </div>
+                </div>
+              </div>
+              <p id="codNote" class="hidden text-sm font-bold text-sage-500 bg-sage-50 rounded-2xl p-4">You'll pay in cash when your parcel arrives at your door. Easy peasy!</p>
+            </div>
+
+            <button id="payBtn" type="submit" class="btn-primary w-full !py-4 text-base">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+              <span id="payBtnLabel">Pay $0.00 Securely</span>
+            </button>
+            <button type="button" onclick="showPage('cart')" class="w-full text-center text-sm font-extrabold text-cocoa-400 hover:text-blush-500 transition">
+              <svg class="w-4 h-4 inline rotate-180 mr-1 -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+              Back to basket
+            </button>
+          </form>
+
+          <!-- summary -->
+          <div class="lg:col-span-2 bg-white rounded-[2rem] border-2 border-dashed border-blush-200 p-6 lg:sticky lg:top-24 shadow-soft">
+            <h3 class="font-display font-bold text-xl text-cocoa-700 mb-5">Your order</h3>
+            <div id="paySummary" class="space-y-4 mb-5"></div>
+            <div class="stitch mb-5"></div>
+            <div class="space-y-3 text-sm font-bold">
+              <div class="flex justify-between"><span class="text-cocoa-400">Subtotal</span><span id="paySub" class="text-cocoa-700"></span></div>
+              <div class="flex justify-between"><span class="text-cocoa-400">Shipping</span><span id="payShip" class="text-cocoa-700"></span></div>
+              <div class="flex justify-between"><span class="text-cocoa-400">Tax</span><span class="text-sage-500">Included</span></div>
+              <div class="stitch my-2"></div>
+              <div class="flex justify-between items-center">
+                <span class="text-cocoa-700 font-display font-bold text-lg">Total</span>
+                <span id="payTotal" class="font-display font-bold text-2xl text-blush-600"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CONFIRMATION -->
+        <div id="confirmBlock" class="hidden max-w-xl mx-auto text-center py-8">
+          <div class="relative w-24 h-24 mx-auto mb-7">
+            <span class="absolute inset-0 rounded-full bg-sage-200 ping-soft"></span>
+            <span class="relative w-24 h-24 rounded-full bg-sage-100 flex items-center justify-center">
+              <svg class="w-12 h-12 text-sage-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg>
+            </span>
+          </div>
+          <h1 class="font-display font-bold text-3xl md:text-4xl text-cocoa-700 mb-3">Thank you, <span id="cfName" class="text-blush-600"></span>!</h1>
+          <p class="text-cocoa-500 font-semibold mb-8">Your order is confirmed and my hook is already warming up. A confirmation email is on its way to your inbox.</p>
+          <div class="bg-white rounded-[2rem] border border-blush-100 shadow-soft p-6 sm:p-7 text-left space-y-4 mb-9">
+            <div class="flex justify-between text-sm font-bold"><span class="text-cocoa-400">Order number</span><span id="cfOrder" class="text-cocoa-700 font-extrabold"></span></div>
+            <div class="stitch"></div>
+            <div class="flex justify-between text-sm font-bold"><span class="text-cocoa-400">Confirmation sent to</span><span id="cfEmail" class="text-cocoa-700 font-extrabold truncate ml-4"></span></div>
+            <div class="stitch"></div>
+            <div class="flex justify-between text-sm font-bold"><span class="text-cocoa-400">Total</span><span id="cfTotal" class="text-blush-600 font-display font-bold text-lg"></span></div>
+            <div class="stitch"></div>
+            <div class="flex justify-between text-sm font-bold"><span class="text-cocoa-400">Estimated delivery</span><span id="cfDate" class="text-cocoa-700 font-extrabold"></span></div>
+          </div>
+          <div class="flex flex-wrap gap-3 justify-center">
+            <button onclick="continueShopping()" class="btn-primary">Continue Shopping
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button onclick="showPage('home')" class="btn-ghost">Back to Home</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-blush-100 mt-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div>
+        <div class="flex items-center gap-2.5 mb-4">
+          <svg viewBox="0 0 48 48" class="w-9 h-9"><circle cx="24" cy="24" r="18" fill="#E5AFBF"/><path d="M9 20c8-6 22-6 30 0M8 27c9 7 23 7 32 0M17 8c-4 10-4 22 0 32M31 8c4 10 4 22 0 32" stroke="#FBF1F3" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M33 36c4 3 8 4 12 3" stroke="#C4758E" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+          <span class="font-display font-bold text-xl text-cocoa-700">Loop <span class="text-blush-500">&amp;</span> Bloom</span>
+        </div>
+        <p class="text-sm font-semibold text-cocoa-400 leading-relaxed mb-5">Handmade crochet treasures, stitched slowly with love in a little sunlit studio.</p>
+        <div class="flex gap-2.5">
+          <a href="#" onclick="return false" aria-label="Instagram" class="w-9 h-9 rounded-full bg-blush-50 hover:bg-blush-100 text-blush-500 flex items-center justify-center transition"><svg class="w-4.5 h-4.5 w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" onclick="return false" aria-label="Facebook" class="w-9 h-9 rounded-full bg-blush-50 hover:bg-blush-100 text-blush-500 flex items-center justify-center transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3V2z"/></svg></a>
+          <a href="#" onclick="return false" aria-label="Twitter" class="w-9 h-9 rounded-full bg-blush-50 hover:bg-blush-100 text-blush-500 flex items-center justify-center transition"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-cocoa-700 mb-4">Explore</h4>
+        <ul class="space-y-2.5 text-sm font-bold text-cocoa-400">
+          <li><a onclick="showPage('home')" class="hover:text-blush-500 cursor-pointer transition">Home</a></li>
+          <li><a onclick="showPage('products')" class="hover:text-blush-500 cursor-pointer transition">Products</a></li>
+          <li><a onclick="showPage('about')" class="hover:text-blush-500 cursor-pointer transition">About</a></li>
+          <li><a onclick="showPage('cart')" class="hover:text-blush-500 cursor-pointer transition">Basket</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-cocoa-700 mb-4">Categories</h4>
+        <ul class="space-y-2.5 text-sm font-bold text-cocoa-400">
+          <li><a onclick="goCat('Wearables')" class="hover:text-blush-500 cursor-pointer transition">Wearables</a></li>
+          <li><a onclick="goCat('Plushies')" class="hover:text-blush-500 cursor-pointer transition">Plushies</a></li>
+          <li><a onclick="goCat('Home')" class="hover:text-blush-500 cursor-pointer transition">Home</a></li>
+          <li><a onclick="goCat('Nursery')" class="hover:text-blush-500 cursor-pointer transition">Nursery</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-display font-bold text-cocoa-700 mb-4">Join the cozy club</h4>
+        <p class="text-sm font-semibold text-cocoa-400 leading-relaxed mb-4">New patterns, restocks and a little stitch of joy in your inbox, once a month.</p>
+        <form onsubmit="newsletter(event)" class="flex gap-2">
+          <input id="nlEmail" type="email" class="field !py-2.5 flex-1" placeholder="Your email">
+          <button type="submit" class="btn-primary !px-4 !py-2.5 shrink-0" aria-label="Subscribe">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="border-t border-blush-100 py-5 text-center text-xs font-bold text-cocoa-400">
+      &copy; 2025 Loop &amp; Bloom &bull; Made with love, one stitch at a time
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ==================== DATA ==================== */
+const IMG = id => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=700&q=70`;
+const PRODUCTS = [
+  {id:1,  name:'Cloud Nine Baby Blanket',        cat:'Blankets',  price:48, rating:4.9, reviews:132, tag:'Bestseller', img:IMG('photo-1584992236310-6edddc08acff'), seed:'blankey'},
+  {id:2,  name:'Sunny the Sunflower Plushie',    cat:'Plushies',  price:22, rating:4.8, reviews:96,  tag:'New',        img:IMG('photo-1615486511484-92e172cc4fe0'), seed:'sunflower'},
+  {id:3,  name:'Lavender Dreams Coaster Set',    cat:'Home',      price:16, rating:4.7, reviews:58,  tag:'',           img:IMG('photo-1544787219-7f47ccb76574'), seed:'coaster'},
+  {id:4,  name:'Strawberry Kiss Beanie',         cat:'Wearables', price:28, rating:4.8, reviews:74,  tag:'',           img:IMG('photo-1576871337622-98d48d1cf531'), seed:'beanie'},
+  {id:5,  name:'Boo the Bunny Amigurumi',        cat:'Plushies',  price:26, rating:5.0, reviews:141, tag:'Bestseller', img:IMG('photo-1615484477778-ca3b77940c25'), seed:'bunny'},
+  {id:6,  name:'Mint Wave Market Tote',          cat:'Bags',      price:34, rating:4.6, reviews:63,  tag:'',           img:IMG('photo-1591561954557-26941169b49e'), seed:'tote'},
+  {id:7,  name:'Rainbow Dreams Nursery Mobile',  cat:'Nursery',   price:52, rating:4.9, reviews:87,  tag:'',           img:IMG('photo-1519689680058-324335c77eba'), seed:'mobile'},
+  {id:8,  name:'Daisy Granny Square Cardigan',   cat:'Wearables', price:68, rating:4.8, reviews:45,  tag:'Limited',    img:IMG('photo-1620799140408-edc6dcb6d633'), seed:'cardigan'},
+  {id:9,  name:'Pippa the Penguin Keychain',     cat:'Plushies',  price:12, rating:4.7, reviews:110, tag:'',           img:IMG('photo-1511556820780-d912e42b4980'), seed:'penguin'},
+  {id:10, name:'Sage Nesting Baskets (Set of 3)',cat:'Home',      price:44, rating:4.8, reviews:52,  tag:'',           img:IMG('photo-1586023492125-27b2c045efd7'), seed:'basket'},
+  {id:11, name:'Peach Blossom Infinity Scarf',   cat:'Wearables', price:38, rating:4.9, reviews:69,  tag:'New',        img:IMG('photo-1607344645866-009c320b63e0'), seed:'scarf'},
+  {id:12, name:'Little Cloud Nursery Pillow',    cat:'Nursery',   price:30, rating:4.7, reviews:41,  tag:'',           img:IMG('photo-1490481651871-ab68de25d43d'), seed:'pillow'}
+];
+const CATS = ['All','Wearables','Plushies','Home','Nursery','Bags','Blankets'];
+const TESTI = [
+  {q:'"The baby blanket I ordered is the softest thing I have ever felt. You can tell every single stitch was made with love."', name:'Emma R.', role:'Verified buyer', init:'ER', color:'bg-blush-400'},
+  {q:'"My daughter has not put her bunny down since it arrived. The quality is unbelievable for something handmade."', name:'Priya S.', role:'Verified buyer', init:'PS', color:'bg-sage-400'},
+  {q:'"Beautiful colours, quick shipping, and the sweetest handwritten note inside the package. Ordering again for sure!"', name:'Dana M.', role:'Verified buyer', init:'DM', color:'bg-lilac-300'}
+];
+const FREE_SHIP = 60, SHIP_FEE = 6;
+
+let cart = JSON.parse(localStorage.getItem('lb_cart')||'[]').filter(i=>PRODUCTS.some(p=>p.id===i.id));
+let wish = new Set();
+let activeCat = 'All', searchTerm = '', tIdx = 0, payMethod = 'card';
+
+const $ = id => document.getElementById(id);
+const fb = seed => `onerror="this.onerror=null;this.src='https://picsum.photos/seed/${seed}/700/700';"`;
+const money = n => '$' + n.toFixed(2);
+
+function stars(r){
+  let h='';
+  for(let i=1;i<=5;i++) h+=`<svg class="w-3.5 h-3.5 ${i<=Math.round(r)?'text-honey':'text-blush-200'}" fill="currentColor" viewBox="0 0 20 20"><path d="M9.05 2.93c.3-.92 1.6-.92 1.9 0l1.3 4a1 1 0 0 0 .95.69h4.2c.97 0 1.37 1.24.59 1.81l-3.4 2.47a1 1 0 0 0-.36 1.12l1.3 4c.3.92-.76 1.69-1.54 1.12l-3.4-2.47a1 1 0 0 0-1.18 0l-3.4 2.47c-.78.57-1.84-.2-1.54-1.12l1.3-4a1 1 0 0 0-.36-1.12L2 9.43c-.78-.57-.38-1.81.6-1.81h4.2a1 1 0 0 0 .94-.69l1.3-4Z"/></svg>`;
+  return h;
+}
+function totals(){
+  const sub = cart.reduce((s,i)=>s + PRODUCTS.find(p=>p.id===i.id).price * i.qty, 0);
+  const ship = sub===0 ? 0 : (sub>=FREE_SHIP ? 0 : SHIP_FEE);
+  return {sub, ship, total: sub+ship};
+}
+
+/* ==================== TOAST ==================== */
+function toast(msg){
+  const t=document.createElement('div');
+  t.className='toast bg-sage-500 text-white';
+  t.innerHTML=`<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg><span>${msg}</span>`;
+  $('toastWrap').appendChild(t);
+  requestAnimationFrame(()=>t.classList.add('show'));
+  setTimeout(()=>{t.classList.remove('show'); setTimeout(()=>t.remove(),320)},2400);
+}
+
+/* ==================== AUTH ==================== */
+function authTab(mode){
+  const login=$('authTabLogin'), signup=$('authTabSignup');
+  if(mode==='login'){
+    login.classList.add('bg-white','shadow-sm','text-blush-600'); login.classList.remove('text-cocoa-400');
+    signup.classList.remove('bg-white','shadow-sm','text-blush-600'); signup.classList.add('text-cocoa-400');
+    $('loginForm').classList.remove('hidden'); $('signupForm').classList.add('hidden');
+  } else {
+    signup.classList.add('bg-white','shadow-sm','text-blush-600'); signup.classList.remove('text-cocoa-400');
+    login.classList.remove('bg-white','shadow-sm','text-blush-600'); login.classList.add('text-cocoa-400');
+    $('signupForm').classList.remove('hidden'); $('loginForm').classList.add('hidden');
+  }
+  $('loginErr').classList.add('hidden'); $('suErr').classList.add('hidden');
+}
+function togglePass(inputId, btn){
+  const i=$(inputId), isPw = i.type==='password';
+  i.type = isPw ? 'text' : 'password';
+  btn.innerHTML = isPw
+    ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" d="M3 3l18 18"/></svg>'
+    : '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+}
+function getUsers(){ return JSON.parse(localStorage.getItem('lb_users')||'[]'); }
+function saveUsers(u){ localStorage.setItem('lb_users', JSON.stringify(u)); }
+function session(){ try{return JSON.parse(localStorage.getItem('lb_session'));}catch(e){return null;} }
+
+function doSignup(e){
+  e.preventDefault();
+  const name=$('suName').value.trim(), email=$('suEmail').value.trim().toLowerCase(), pass=$('suPass').value;
+  const err=$('suErr');
+  ['suName','suEmail','suPass'].forEach(id=>$(id).classList.remove('invalid'));
+  if(!name){ $('suName').classList.add('invalid'); err.textContent='Please tell me your name!'; err.classList.remove('hidden'); return; }
+  if(!/^\S+@\S+\.\S+$/.test(email)){ $('suEmail').classList.add('invalid'); err.textContent='That email looks a little tangled — please check it.'; err.classList.remove('hidden'); return; }
+  if(pass.length<6){ $('suPass').classList.add('invalid'); err.textContent='Password needs at least 6 characters.'; err.classList.remove('hidden'); return; }
+  const users=getUsers();
+  if(users.find(u=>u.email===email)){ err.textContent='An account with this email already exists — try logging in.'; err.classList.remove('hidden'); return; }
+  users.push({name,email,pass}); saveUsers(users);
+  localStorage.setItem('lb_session', JSON.stringify({name,email}));
+  enterApp(); toast(`Welcome to the cozy club, ${name.split(' ')[0]}!`);
+}
+function doLogin(e){
+  e.preventDefault();
+  const email=$('loginEmail').value.trim().toLowerCase(), pass=$('loginPass').value;
+  const err=$('loginErr');
+  ['loginEmail','loginPass'].forEach(id=>$(id).classList.remove('invalid'));
+  if(!/^\S+@\S+\.\S+$/.test(email)){ $('loginEmail').classList.add('invalid'); err.textContent='Please enter a valid email.'; err.classList.remove('hidden'); return; }
+  if(!pass){ $('loginPass').classList.add('invalid'); err.textContent='Please enter your password.'; err.classList.remove('hidden'); return; }
+  const u=getUsers().find(u=>u.email===email && u.pass===pass);
+  if(!u){ err.textContent='No account found with those details — check your email and password.'; err.classList.remove('hidden'); return; }
+  localStorage.setItem('lb_session', JSON.stringify({name:u.name,email:u.email}));
+  enterApp(); toast(`Welcome back, ${u.name.split(' ')[0]}!`);
+}
+function enterApp(){
+  const s=session(); if(!s) return;
+  $('authPage').classList.add('hidden');
+  $('app').classList.remove('hidden');
+  $('navUserName').textContent = s.name.split(' ')[0];
+  showPage('home'); updateCartBadge();
+}
+function logout(){
+  localStorage.removeItem('lb_session');
+  $('app').classList.add('hidden');
+  $('authPage').classList.remove('hidden');
+  authTab('login'); $('loginForm').reset(); $('signupForm').reset();
+  toast('Logged out — see you soon!');
+}
+
+/* ==================== NAVIGATION ==================== */
+function showPage(name){
+  if(name==='payment' && cart.length===0){ showPage('cart'); toast('Your basket is empty'); return; }
+  document.querySelectorAll('.app-page').forEach(s=>s.classList.add('hidden'));
+  const el=$('page-'+name);
+  el.classList.remove('hidden');
+  el.classList.remove('page-enter'); void el.offsetWidth; el.classList.add('page-enter');
+  window.scrollTo({top:0});
+  document.querySelectorAll('#desktopNav .nav-link').forEach(a=>a.classList.toggle('active', a.dataset.nav===name));
+  if(name==='cart') renderCart();
+  if(name==='payment'){ resetPayView(); renderPaySummary(); }
+  closeMobileMenu();
+}
+function toggleMobileMenu(){
+  const m=$('mobileMenu'); m.classList.toggle('hidden');
+  $('hamburger').innerHTML = m.classList.contains('hidden')
+    ? '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 6h18M3 12h18M3 18h18"/></svg>'
+    : '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M18 6L6 18M6 6l12 12"/></svg>';
+}
+function closeMobileMenu(){ $('mobileMenu').classList.add('hidden'); $('hamburger').innerHTML='<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 6h18M3 12h18M3 18h18"/></svg>'; }
+
+/* ==================== PRODUCTS ==================== */
+function tagClass(t){
+  return t==='Bestseller' ? 'bg-blush-500 text-white' : t==='New' ? 'bg-sage-500 text-white' : 'bg-cocoa-500 text-white';
+}
+function productCard(p){
+  const on = wish.has(p.id);
+  return `
+  <div class="group bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-lift hover:-translate-y-1.5 transition-all duration-300 border border-blush-100/70">
+    <div class="relative aspect-square overflow-hidden bg-blush-100">
+      <img src="${p.img}" ${fb(p.seed)} alt="${p.name}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      ${p.tag?`<span class="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wide ${tagClass(p.tag)} shadow-sm">${p.tag}</span>`:''}
+      <button onclick="toggleWish(${p.id},this)" aria-label="Save to wishlist" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/90 flex items-center justify-center shadow-sm hover:scale-110 active:scale-95 transition">
+        <svg class="w-4.5 h-4.5 w-5 h-5 ${on?'text-blush-500':'text-cocoa-400/40'}" fill="${on?'currentColor':'none'}" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </button>
+    </div>
+    <div class="p-4 md:p-5">
+      <div class="flex items-center gap-1 mb-1.5">${stars(p.rating)}<span class="text-[11px] text-cocoa-400 ml-1 font-bold">(${p.reviews})</span></div>
+      <h3 class="font-display font-bold text-cocoa-700 leading-snug text-sm md:text-base">${p.name}</h3>
+      <p class="text-[11px] text-cocoa-400 font-bold uppercase tracking-wide mt-0.5 mb-3">${p.cat}</p>
+      <div class="flex items-center justify-between gap-2">
+        <span class="font-display font-bold text-blush-600 text-lg">${money(p.price)}</span>
+        <button onclick="addToCart(${p.id},this)" class="px-3.5 md:px-4 py-2 rounded-full bg-blush-500 text-white text-xs md:text-sm font-extrabold hover:bg-blush-600 active:scale-95 transition flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg>Add
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+function buildPills(){
+  $('catPills').innerHTML = CATS.map(c=>`<button class="pill ${c===activeCat?'active':''}" data-cat="${c}" onclick="setCat('${c}')">${c}</button>`).join('');
+}
+function updatePills(){
+  document.querySelectorAll('#catPills .pill').forEach(b=>b.classList.toggle('active', b.dataset.cat===activeCat));
+}
+function setCat(c){ activeCat=c; updatePills(); renderProducts(); }
+function goCat(c){ activeCat=c; searchTerm=''; $('searchInput').value=''; updatePills(); renderProducts(); showPage('products'); }
+function onSearch(v){ searchTerm=v; renderProducts(); }
+function renderProducts(){
+  const list = PRODUCTS.filter(p => (activeCat==='All'||p.cat===activeCat) && p.name.toLowerCase().includes(searchTerm.toLowerCase()));
+  $('productGrid').innerHTML = list.length
+    ? list.map(productCard).join('')
+    : `<div class="col-span-full text-center py-16">
+         <svg viewBox="0 0 48 48" class="w-16 h-16 mx-auto mb-4 opacity-60"><circle cx="24" cy="24" r="18" fill="#F0CED8"/><path d="M9 20c8-6 22-6 30 0M8 27c9 7 23 7 32 0" stroke="#FBF1F3" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+         <p class="font-display font-bold text-xl text-cocoa-700 mb-1">No cozy things found</p>
+         <p class="text-sm font-semibold text-cocoa-400">Try a different search or category.</p>
+       </div>`;
+  $('resultCount').textContent = list.length ? `${list.length} cozy ${list.length===1?'piece':'pieces'}` : '';
+}
+function renderFeatured(){
+  $('featuredGrid').innerHTML = [5,1,11,7].map(id=>productCard(PRODUCTS.find(p=>p.id===id))).join('');
+}
+function toggleWish(id, btn){
+  if(wish.has(id)){ wish.delete(id); toast('Removed from wishlist'); }
+  else { wish.add(id); toast('Saved to your wishlist'); }
+  const on = wish.has(id);
+  const s = btn.querySelector('svg');
+  s.classList.toggle('text-blush-500', on);
+  s.classList.toggle('text-cocoa-400/40', !on);
+  s.setAttribute('fill', on?'currentColor':'none');
+}
+
+/* ==================== CART ==================== */
+function saveCart(){ localStorage.setItem('lb_cart', JSON.stringify(cart)); }
+function cartCount(){ return cart.reduce((s,i)=>s+i.qty,0); }
+function updateCartBadge(){
+  const n=cartCount(), b=$('cartBadge');
+  if(n===0){ b.classList.add('hidden'); } else { b.classList.remove('hidden'); b.textContent=n; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); }
+  const mm=$('mmCartCount'); if(mm) mm.textContent=n;
+}
+function addToCart(id, btn){
+  const item=cart.find(i=>i.id===id);
+  if(item) item.qty++; else cart.push({id, qty:1});
+  saveCart(); updateCartBadge();
+  toast('Added to your basket');
+  if(btn){
+    const orig=btn.innerHTML;
+    btn.innerHTML='<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5"/></svg>Added';
+    btn.classList.add('!bg-sage-500');
+    setTimeout(()=>{btn.innerHTML=orig; btn.classList.remove('!bg-sage-500');},1100);
+  }
+}
+function changeQty(id, d){
+  const item=cart.find(i=>i.id===id); if(!item) return;
+  item.qty+=d;
+  if(item.qty<=0){ removeFromCart(id); return; }
+  saveCart(); renderCart(); updateCartBadge();
+}
+function removeFromCart(id){
+  cart=cart.filter(i=>i.id!==id);
+  saveCart(); renderCart(); updateCartBadge();
+  toast('Removed from basket');
+}
+function renderCart(){
+  const has = cart.length>0;
+  $('cartEmpty').classList.toggle('hidden', has);
+  $('cartContent').classList.toggle('hidden', !has);
+  if(!has) return;
+  $('cartItems').innerHTML = cart.map(i=>{
+    const p=PRODUCTS.find(x=>x.id===i.id);
+    return `
+    <div class="bg-white rounded-3xl border border-blush-100 shadow-soft p-4 flex gap-4 items-center">
+      <img src="${p.img}" ${fb(p.seed)} class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover bg-blush-100 shrink-0" alt="${p.name}">
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <h3 class="font-display font-bold text-cocoa-700 text-sm sm:text-base truncate">${p.name}</h3>
+            <p class="text-xs font-bold text-cocoa-400 mt-0.5">${money(p.price)} each</p>
+          </div>
+          <button onclick="removeFromCart(${p.id})" aria-label="Remove" class="p-2 rounded-full text-cocoa-400 hover:text-blush-600 hover:bg-blush-50 transition shrink-0">
+            <svg class="w-4.5 h-4.5 w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></svg>
+          </button>
+        </div>
+        <div class="flex items-center justify-between mt-3">
+          <div class="flex items-center gap-1 bg-blush-50 rounded-full p-1">
+            <button onclick="changeQty(${p.id},-1)" class="w-8 h-8 rounded-full bg-white text-cocoa-600 font-extrabold flex items-center justify-center shadow-sm hover:text-blush-500 active:scale-90 transition" aria-label="Decrease"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" d="M5 12h14"/></svg></button>
+            <span class="w-8 text-center font-extrabold text-sm text-cocoa-700">${i.qty}</span>
+            <button onclick="changeQty(${p.id},1)" class="w-8 h-8 rounded-full bg-white text-cocoa-600 font-extrabold flex items-center justify-center shadow-sm hover:text-blush-500 active:scale-90 transition" aria-label="Increase"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" d="M12 5v14M5 12h14"/></svg></button>
+          </div>
+          <span class="font-display font-bold text-blush-600 text-lg">${money(p.price*i.qty)}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  const {sub,ship,total}=totals();
+  const remaining=Math.max(0, FREE_SHIP-sub);
+  $('shipBar').style.width = Math.min(100, sub/FREE_SHIP*100)+'%';
+  $('shipText').textContent = remaining>0
+    ? `You're ${money(remaining)} away from free shipping!`
+    : `You've unlocked free shipping — yay!`;
+  $('cartSub').textContent=money(sub);
+  $('cartShip').innerHTML = ship===0 ? '<span class="text-sage-500">Free</span>' : money(ship);
+  $('cartTotal').textContent=money(total);
+}
+
+/* ==================== PAYMENT ==================== */
+function setMethod(m){
+  payMethod=m;
+  $('optCard').classList.toggle('selected', m==='card');
+  $('optCod').classList.toggle('selected', m==='cod');
+  $('cardFields').classList.toggle('hidden', m!=='card');
+  $('codNote').classList.toggle('hidden', m==='card');
+}
+function renderPaySummary(){
+  $('paySummary').innerHTML = cart.map(i=>{
+    const p=PRODUCTS.find(x=>x.id===i.id);
+    return `
+    <div class="flex items-center gap-3">
+      <img src="${p.img}" ${fb(p.seed)} class="w-14 h-14 rounded-xl object-cover bg-blush-100 shrink-0" alt="${p.name}">
+      <div class="min-w-0 flex-1">
+        <p class="font-bold text-sm text-cocoa-700 truncate">${p.name}</p>
+        <p class="text-xs font-bold text-cocoa-400">Qty ${i.qty} &times; ${money(p.price)}</p>
+      </div>
+      <span class="font-extrabold text-sm text-cocoa-700">${money(p.price*i.qty)}</span>
+    </div>`;
+  }).join('');
+  const {sub,ship,total}=totals();
+  $('paySub').textContent=money(sub);
+  $('payShip').innerHTML = ship===0 ? '<span class="text-sage-500">Free</span>' : money(ship);
+  $('payTotal').textContent=money(total);
+  $('payBtnLabel').textContent = (payMethod==='card' ? 'Pay ' : 'Place order — ') + money(total);
+}
+function resetPayView(){
+  $('payContent').classList.remove('hidden');
+  $('paySteps').classList.remove('hidden');
+  $('confirmBlock').classList.add('hidden');
+}
+function markIfEmpty(id){ const el=$(id); const ok=el.value.trim()!==''; el.classList.toggle('invalid',!ok); return ok; }
+function placeOrder(e){
+  e.preventDefault();
+  let ok=true;
+  ['shName','shAddr','shCity','shZip'].forEach(id=>{ if(!markIfEmpty(id)) ok=false; });
+  const email=$('shEmail');
+  if(!/^\S+@\S+\.\S+$/.test(email.value.trim())){ email.classList.add('invalid'); ok=false; } else email.classList.remove('invalid');
+  if(!markIfEmpty('shPhone')) ok=false;
+  if($('shCountry').value===''){ $('shCountry').classList.add('invalid'); ok=false; } else $('shCountry').classList.remove('invalid');
+  if(payMethod==='card'){
+    if(!markIfEmpty('ccName')) ok=false;
+    const digits=$('ccNum').value.replace(/\D/g,'');
+    $('ccNum').classList.toggle('invalid', digits.length<15); if(digits.length<15) ok=false;
+    const expOk=/^\d{2}\/\d{2}$/.test($('ccExp').value) && +$('ccExp').value.slice(0,2)>=1 && +$('ccExp').value.slice(0,2)<=12;
+    $('ccExp').classList.toggle('invalid',!expOk); if(!expOk) ok=false;
+    const cvcOk=/^\d{3,4}$/.test($('ccCvc').value);
+    $('ccCvc').classList.toggle('invalid',!cvcOk); if(!cvcOk) ok=false;
+  }
+  if(!ok){ toast('Please check the highlighted fields'); return; }
+
+  const btn=$('payBtn');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span><span>Processing your order...</span>';
+  setTimeout(completeOrder, 1800);
+}
+function completeOrder(){
+  const s=session();
+  const {total}=totals();
+  const orderNum='LB-'+Math.random().toString(36).slice(2,7).toUpperCase();
+  $('cfName').textContent = s ? s.name.split(' ')[0] : 'friend';
+  $('cfEmail').textContent = $('shEmail').value;
+  $('cfOrder').textContent = orderNum;
+  $('cfTotal').textContent = money(total);
+  $('cfDate').textContent = new Date(Date.now()+6*864e5).toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
+  $('payContent').classList.add('hidden');
+  $('paySteps').classList.add('hidden');
+  $('confirmBlock').classList.remove('hidden');
+  $('confirmBlock').classList.remove('page-enter'); void $('confirmBlock').offsetWidth; $('confirmBlock').classList.add('page-enter');
+  cart=[]; saveCart(); updateCartBadge();
+  confetti();
+  window.scrollTo({top:0});
+}
+function continueShopping(){
+  $('payForm').reset();
+  setMethod('card');
+  document.querySelectorAll('.field.invalid').forEach(f=>f.classList.remove('invalid'));
+  const btn=$('payBtn');
+  btn.disabled=false;
+  btn.innerHTML='<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span id="payBtnLabel">Pay $0.00 Securely</span>';
+  showPage('products');
+}
+function confetti(){
+  const colors=['#E5AFBF','#A3C2B0','#EAD0A4','#C3B3D6','#D692A6','#7FA791'];
+  for(let i=0;i<44;i++){
+    const c=document.createElement('div');
+    const size=6+Math.random()*8;
+    c.className='confetti-piece';
+    c.style.left=Math.random()*100+'vw';
+    c.style.width=size+'px';
+    c.style.height=(Math.random()<.5?size:size*1.5)+'px';
+    c.style.background=colors[i%colors.length];
+    c.style.borderRadius=Math.random()<.5?'50%':'3px';
+    c.style.animationDuration=(2.4+Math.random()*1.8)+'s';
+    c.style.animationDelay=(Math.random()*.7)+'s';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),5200);
+  }
+}
+
+/* ==================== TESTIMONIALS ==================== */
+function renderTesti(i){
+  const t=TESTI[i];
+  const card=$('tCard');
+  card.classList.remove('fade-swap'); void card.offsetWidth; card.classList.add('fade-swap');
+  $('tQuote').textContent=t.q;
+  $('tName').textContent=t.name;
+  $('tRole').textContent=t.role;
+  const av=$('tAvatar');
+  av.className='w-12 h-12 rounded-full flex items-center justify-center font-display font-bold text-white '+t.color;
+  av.textContent=t.init;
+  document.querySelectorAll('#tDots .dot').forEach((d,di)=>d.classList.toggle('active',di===i));
+}
+function gotoTesti(i){ tIdx=i; renderTesti(i); }
+
+/* ==================== MISC ==================== */
+function newsletter(e){
+  e.preventDefault();
+  const em=$('nlEmail');
+  if(!/^\S+@\S+\.\S+$/.test(em.value.trim())){ em.classList.add('invalid'); toast('Please enter a valid email'); return; }
+  em.classList.remove('invalid'); em.value='';
+  toast('Welcome to the cozy club!');
+}
+
+/* ==================== INIT ==================== */
+function initInputs(){
+  $('ccNum').addEventListener('input', e=>{
+    const v=e.target.value.replace(/\D/g,'').slice(0,16);
+    e.target.value=v.replace(/(\d{4})(?=\d)/g,'$1 ');
+  });
+  $('ccExp').addEventListener('input', e=>{
+    let v=e.target.value.replace(/\D/g,'').slice(0,4);
+    if(v.length>2) v=v.slice(0,2)+'/'+v.slice(2);
+    e.target.value=v;
+  });
+  $('ccCvc').addEventListener('input', e=>{
+    e.target.value=e.target.value.replace(/\D/g,'').slice(0,4);
+  });
+  document.querySelectorAll('.field').forEach(f=>{
+    f.addEventListener('input',()=>f.classList.remove('invalid'));
+    f.addEventListener('change',()=>f.classList.remove('invalid'));
+  });
+}
+
+buildPills();
+renderProducts();
+renderFeatured();
+initInputs();
+renderTesti(0);
+$('tDots').innerHTML = TESTI.map((_,i)=>`<button class="dot ${i===0?'active':''}" onclick="gotoTesti(${i})" aria-label="Testimonial ${i+1}"></button>`).join('');
+setInterval(()=>{ tIdx=(tIdx+1)%TESTI.length; renderTesti(tIdx); }, 5500);
+updateCartBadge();
+if(session()) enterApp();
+</script>
+</body>
+</html>
