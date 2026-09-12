@@ -243,10 +243,10 @@ function togglePass(inputId, btn) {
     : '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
 }
 function getUsers() {
-  return JSON.parse(localStorage.getItem("lb_users") || "[]");
+  return JSON.parse(localStorage.getItem("lb_user") || "[]");
 }
 function saveUsers(u) {
-  localStorage.setItem("lb_users", JSON.stringify(u));
+  localStorage.setItem("lb_user", JSON.stringify(u));
 }
 function session() {
   try {
@@ -345,30 +345,30 @@ function doLogin(e) {
 
 function updateAuthUI() {
   const s = session();
-
+  console.log(Boolean(s))
   const navLogin = $("navLogin");
   const navUser = $("navUser");
   const navLogout = $("navLogout");
   const mmLogin = $("mmLogin");
   const mmLogout = $("mmLogout");
 
-  if (s) {
+  if (Boolean(s)) {
     $("navUserName").textContent = s.name.split(" ")[0];
 
-    navLogin.classList.add("hidden");
+    navLogin.classList.add("hide");
     navUser.classList.remove("hidden");
     navUser.classList.add("lg:flex");
-    navLogout.classList.remove("hidden");
+    navLogout.classList.remove("hide");
 
     mmLogin.classList.add("hidden");
     mmLogout.classList.remove("hidden");
   } else {
     $("navUserName").textContent = "";
 
-    navLogin.classList.remove("hidden");
+    navLogin.classList.remove("hide");
     navUser.classList.add("hidden");
     navUser.classList.remove("lg:flex");
-    navLogout.classList.add("hidden");
+    navLogout.classList.add("hide");
 
     mmLogin.classList.remove("hidden");
     mmLogout.classList.add("hidden");
@@ -424,7 +424,6 @@ function cancelAuth() {
 
   showPage(destination);
 }
-
 
 /* ==================== NAVIGATION ==================== */
 function showPage(name) {
@@ -585,10 +584,7 @@ function renderFeatured() {
     .join("");
 }
 function saveWish() {
-  localStorage.setItem(
-    "lb_wish",
-    JSON.stringify([...wish])
-  );
+  localStorage.setItem("lb_wish", JSON.stringify([...wish]));
 }
 function toggleWish(id, btn) {
   if (wish.has(id)) {
@@ -756,34 +752,60 @@ function markIfEmpty(id) {
 function placeOrder(e) {
   e.preventDefault();
   let ok = true;
+
   ["shName", "shAddr", "shCity", "shZip"].forEach((id) => {
     if (!markIfEmpty(id)) ok = false;
   });
+
   const email = $("shEmail");
   if (!/^\S+@\S+\.\S+$/.test(email.value.trim())) {
     email.classList.add("invalid");
     ok = false;
   } else email.classList.remove("invalid");
+
   if (!markIfEmpty("shPhone")) ok = false;
-  if ($("shCountry").value === "") {
-    $("shCountry").classList.add("invalid");
-    ok = false;
-  } else $("shCountry").classList.remove("invalid");
-  if (payMethod === "card") {
-    if (!markIfEmpty("ccName")) ok = false;
-    const digits = $("ccNum").value.replace(/\D/g, "");
-    $("ccNum").classList.toggle("invalid", digits.length < 15);
-    if (digits.length < 15) ok = false;
-    const expOk =
-      /^\d{2}\/\d{2}$/.test($("ccExp").value) &&
-      +$("ccExp").value.slice(0, 2) >= 1 &&
-      +$("ccExp").value.slice(0, 2) <= 12;
-    $("ccExp").classList.toggle("invalid", !expOk);
-    if (!expOk) ok = false;
-    const cvcOk = /^\d{3,4}$/.test($("ccCvc").value);
-    $("ccCvc").classList.toggle("invalid", !cvcOk);
-    if (!cvcOk) ok = false;
-  }
+
+  // if (payMethod === "card") {
+  //   if (!markIfEmpty("ccName")) ok = false;
+
+  //   const digits = $("ccNum").value.replace(/\D/g, "");
+
+  //   $("ccNum").classList.toggle("invalid", digits.length < 15);
+
+  //   if (digits.length < 15) ok = false;
+
+  //   //Checking card expiry
+  //   function validExpiry(value) {
+  //     if (!/^\d{2}\/\d{2}$/.test(value)) {
+  //       return false;
+  //     }
+
+  //     const [month, year] = value.split("/").map(Number);
+
+  //     if (month < 1 || month > 12) {
+  //       return false;
+  //     }
+
+  //     const now = new Date();
+
+  //     const currentYear = now.getFullYear() % 100;
+  //     const currentMonth = now.getMonth() + 1;
+
+  //     return (
+  //       year > currentYear || (year === currentYear && month >= currentMonth)
+  //     );
+  //   }
+  //   const expOk = validExpiry($("ccExp").value);
+
+  //   $("ccExp").classList.toggle("invalid", !expOk);
+
+  //   if (!expOk) ok = false;
+
+  //   const cvcOk = /^\d{3,4}$/.test($("ccCvc").value);
+
+  //   $("ccCvc").classList.toggle("invalid", !cvcOk);
+  //   if (!cvcOk) ok = false;
+  // }
   if (!ok) {
     toast("Please check the highlighted fields");
     return;
@@ -895,31 +917,30 @@ function newsletter(e) {
 }
 
 /* ==================== INIT ==================== */
-function initInputs() {
-  $("ccNum").addEventListener("input", (e) => {
-    const v = e.target.value.replace(/\D/g, "").slice(0, 16);
-    e.target.value = v.replace(/(\d{4})(?=\d)/g, "$1 ");
-  });
-  $("ccExp").addEventListener("input", (e) => {
-    let v = e.target.value.replace(/\D/g, "").slice(0, 4);
-    if (v.length > 2) v = v.slice(0, 2) + "/" + v.slice(2);
-    e.target.value = v;
-  });
-  $("ccCvc").addEventListener("input", (e) => {
-    e.target.value = e.target.value.replace(/\D/g, "").slice(0, 4);
-  });
-  document.querySelectorAll(".field").forEach((f) => {
-    f.addEventListener("input", () => f.classList.remove("invalid"));
-    f.addEventListener("change", () => f.classList.remove("invalid"));
-  });
-}
+// function initInputs() {
+//   $("ccNum").addEventListener("input", (e) => {
+//     const v = e.target.value.replace(/\D/g, "").slice(0, 16);
+//     e.target.value = v.replace(/(\d{4})(?=\d)/g, "$1 ");
+//   });
+//   $("ccExp").addEventListener("input", (e) => {
+//     let v = e.target.value.replace(/\D/g, "").slice(0, 4);
+//     if (v.length > 2) v = v.slice(0, 2) + "/" + v.slice(2);
+//     e.target.value = v;
+//   });
+//   $("ccCvc").addEventListener("input", (e) => {
+//     e.target.value = e.target.value.replace(/\D/g, "").slice(0, 4);
+//   });
+//   document.querySelectorAll(".field").forEach((f) => {
+//     f.addEventListener("input", () => f.classList.remove("invalid"));
+//     f.addEventListener("change", () => f.classList.remove("invalid"));
+//   });
+// }
 
 buildPills();
 renderProducts();
 renderFeatured();
-initInputs();
+// initInputs();
 renderTesti(0);
-
 
 $("tDots").innerHTML = TESTI.map(
   (_, i) =>
@@ -929,7 +950,6 @@ setInterval(() => {
   tIdx = (tIdx + 1) % TESTI.length;
   renderTesti(tIdx);
 }, 5500);
-
 
 updateCartBadge();
 enterApp();
