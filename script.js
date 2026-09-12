@@ -345,7 +345,6 @@ function doLogin(e) {
 
 function updateAuthUI() {
   const s = session();
-  console.log(Boolean(s))
   const navLogin = $("navLogin");
   const navUser = $("navUser");
   const navLogout = $("navLogout");
@@ -708,13 +707,13 @@ function renderCart() {
 }
 
 /* ==================== PAYMENT ==================== */
-function setMethod(m) {
-  payMethod = m;
-  $("optCard").classList.toggle("selected", m === "card");
-  $("optCod").classList.toggle("selected", m === "cod");
-  $("cardFields").classList.toggle("hidden", m !== "card");
-  $("codNote").classList.toggle("hidden", m === "card");
-}
+// function setMethod(m) {
+//   payMethod = m;
+//   $("optCard").classList.toggle("selected", m === "card");
+//   $("optCod").classList.toggle("selected", m === "cod");
+//   $("cardFields").classList.toggle("hidden", m !== "card");
+//   $("codNote").classList.toggle("hidden", m === "card");
+// }
 function renderPaySummary() {
   $("paySummary").innerHTML = cart
     .map((i) => {
@@ -843,7 +842,7 @@ function completeOrder() {
 }
 function continueShopping() {
   $("payForm").reset();
-  setMethod("card");
+  // setMethod("card");
   document
     .querySelectorAll(".field.invalid")
     .forEach((f) => f.classList.remove("invalid"));
