@@ -432,7 +432,7 @@
         <div
           class="max-w-7xl mx-auto px-4 sm:px-6 h-16 md:h-20 flex items-center justify-between gap-3"
         >
-          <a
+          <button
             onclick="showPage('home')"
             class="flex items-center gap-1 cursor-pointer shrink-0"
           >
@@ -447,23 +447,23 @@
               class="font-display font-bold text-xl md:text-2xl text-blush-500"
               >Crochu</span
             >
-          </a>
+          </button>
 
           <nav class="hidden md:flex items-center gap-1" id="desktopNav">
-            <a
+            <button
               class="nav-link active"
               data-nav="home"
               onclick="showPage('home')"
               >Home</a
             >
-            <a
+            <button
               class="nav-link"
               data-nav="products"
               onclick="showPage('products')"
-              >Products</a
+              >Products</button
             >
-            <a class="nav-link" data-nav="about" onclick="showPage('about')"
-              >About</a
+            <button class="nav-link" data-nav="about" onclick="showPage('about')"
+              >About</button
             >
           </nav>
           <!-- Auth state -->
@@ -569,31 +569,31 @@
           id="mobileMenu"
           class="hidden md:hidden bg-white border-t border-blush-100 px-4 py-3 space-y-1"
         >
-          <a
+          <button
             onclick="
               showPage('home');
               closeMobileMenu();
             "
             class="mm-link"
-            >Home</a
+            >Home</button
           >
-          <a
+          <button
             onclick="
               showPage('products');
               closeMobileMenu();
             "
             class="mm-link"
-            >Products</a
+            >Products</button
           >
-          <a
+          <button
             onclick="
               showPage('about');
               closeMobileMenu();
             "
             class="mm-link"
-            >About</a
+            >About</button
           >
-          <a
+          <button
             onclick="
               showPage('cart');
               closeMobileMenu();
@@ -604,7 +604,7 @@
               id="mmCartCount"
               class="bg-blush-100 text-blush-600 text-xs font-extrabold rounded-full px-2.5 py-1"
               >0</span
-            ></a
+            ></button
           >
           <button
             id="mmLogin"
@@ -2327,8 +2327,9 @@
                 href="https://www.instagram.com/crochu2025/"
                 target="_blank"
                 aria-label="Instagram"
-                class="w-9 h-9 rounded-full bg-blush-50 hover:bg-blush-100 text-blush-500 flex items-center justify-center transition"
-                ><svg
+                class="px-3 py-2 flex gap-2 rounded-xl bg-blush-50 hover:bg-blush-100 border border-transparent hover:border hover:border-blush-400 text-blush-500 flex items-center justify-center transition"
+                >
+                <svg
                   class="w-4.5 h-4.5 w-5 h-5"
                   fill="none"
                   stroke="currentColor"
@@ -2344,8 +2345,9 @@
                     fill="currentColor"
                     stroke="none"
                   /></svg
-              ></a>
-              <a
+              >
+            <span class="font-semibold text-sm">/@crochu2025</span></a>
+              <!-- <a
                 href="#"
                 onclick="return false;"
                 aria-label="Facebook"
@@ -2364,7 +2366,7 @@
                   <path
                     d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
                   /></svg
-              ></a>
+              ></a> -->
             </div>
           </div>
           <div>

@@ -170,8 +170,9 @@ const TESTI = [
 const FREE_SHIP = 60,
   SHIP_FEE = 6;
 
-let cart = JSON.parse(localStorage.getItem("lb_cart") || "[]").filter((i) =>
-  PRODUCTS.some((p) => p.id === i.id),
+let cart = JSON.parse(localStorage.getItem("lb_cart") || "[]").filter(
+  (i) =>
+    PRODUCTS.some((p) => p.id === i.id) && Number.isInteger(i.qty) && i.qty > 0,
 );
 let wish = new Set(JSON.parse(localStorage.getItem("lb_wish") || "[]"));
 let activeCat = "All",
@@ -912,7 +913,7 @@ function newsletter(e) {
   }
   em.classList.remove("invalid");
   em.value = "";
-  toast("Welcome to the cozy club!");
+  toast("Thanks! Newsletter signup is available in the full version.");
 }
 
 /* ==================== INIT ==================== */
