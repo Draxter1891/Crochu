@@ -9,6 +9,42 @@
       type="image/x-icon"
     />
     <title>Crochu — Handmade Crochet</title>
+    <meta
+      name="description"
+      content="Discover beautiful handmade crochet pieces, crafted with care and a little bit of cozy magic."
+    />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://crochu.vercel.app/" />
+    <meta
+      property="og:title"
+      content="Crochu — Handmade Crochet, Made With Love"
+    />
+    <meta
+      property="og:description"
+      content="Handmade crochet pieces, crafted with care and a little bit of cozy magic."
+    />
+    <meta
+      property="og:image"
+      content="https://res.cloudinary.com/dwl1mgrt4/image/upload/v1789215842/sharePreviewImg_kddyvw.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Crochu — Handmade Crochet, Made With Love"
+    />
+    <meta
+      name="twitter:description"
+      content="Handmade crochet pieces, crafted with care and a little bit of cozy magic."
+    />
+    <meta
+      name="twitter:image"
+      content="https://res.cloudinary.com/dwl1mgrt4/image/upload/v1789215842/sharePreviewImg_kddyvw.png"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -57,7 +93,7 @@
       href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body class="bg-cream text-cocoa-500 antialiased min-h-screen">
     <!-- Toast Notification -->
@@ -454,17 +490,23 @@
               class="nav-link active"
               data-nav="home"
               onclick="showPage('home')"
-              >Home</a
             >
+              Home
+            </button>
             <button
               class="nav-link"
               data-nav="products"
               onclick="showPage('products')"
-              >Products</button
             >
-            <button class="nav-link" data-nav="about" onclick="showPage('about')"
-              >About</button
+              Products
+            </button>
+            <button
+              class="nav-link"
+              data-nav="about"
+              onclick="showPage('about')"
             >
+              About
+            </button>
           </nav>
           <!-- Auth state -->
           <div class="flex items-center gap-2">
@@ -575,37 +617,41 @@
               closeMobileMenu();
             "
             class="mm-link"
-            >Home</button
           >
+            Home
+          </button>
           <button
             onclick="
               showPage('products');
               closeMobileMenu();
             "
             class="mm-link"
-            >Products</button
           >
+            Products
+          </button>
           <button
             onclick="
               showPage('about');
               closeMobileMenu();
             "
             class="mm-link"
-            >About</button
           >
+            About
+          </button>
           <button
             onclick="
               showPage('cart');
               closeMobileMenu();
             "
             class="mm-link flex items-center justify-between"
-            >Basket
+          >
+            Basket
             <span
               id="mmCartCount"
               class="bg-blush-100 text-blush-600 text-xs font-extrabold rounded-full px-2.5 py-1"
               >0</span
-            ></button
-          >
+            >
+          </button>
           <button
             id="mmLogin"
             onclick="
@@ -1683,12 +1729,12 @@
               class="hidden max-w-md mx-auto text-center py-10"
             >
               <div class="w-24 h-24 mx-auto mb-6 opacity-70 animate-float">
-            <img
-              class="w-full"
-              src="https://res.cloudinary.com/dwl1mgrt4/image/upload/v1788537709/catwithwool_lqzqst.png"
-              alt="little cat playing with woollen ball"
-            />
-          </div>
+                <img
+                  class="w-full"
+                  src="https://res.cloudinary.com/dwl1mgrt4/image/upload/v1788537709/catwithwool_lqzqst.png"
+                  alt="little cat playing with woollen ball"
+                />
+              </div>
               <h2 class="font-display font-bold text-2xl text-cocoa-700 mb-2">
                 Your basket is feeling lonely
               </h2>
@@ -2024,7 +2070,7 @@
                       </div>
                       <!-- <span class="radio-dot"></span> -->
                     </div>
-                  </div> 
+                  </div>
 
                   <!-- <div id="cardFields">
                     <div class="flex items-center justify-between mb-4">
@@ -2328,7 +2374,7 @@
                 target="_blank"
                 aria-label="Instagram"
                 class="px-3 py-2 flex gap-2 rounded-xl bg-blush-50 hover:bg-blush-100 border border-transparent hover:border hover:border-blush-400 text-blush-500 flex items-center justify-center transition"
-                >
+              >
                 <svg
                   class="w-4.5 h-4.5 w-5 h-5"
                   fill="none"
@@ -2344,9 +2390,10 @@
                     r="1.1"
                     fill="currentColor"
                     stroke="none"
-                  /></svg
+                  />
+                </svg>
+                <span class="font-semibold text-sm">/@crochu2025</span></a
               >
-            <span class="font-semibold text-sm">/@crochu2025</span></a>
               <!-- <a
                 href="#"
                 onclick="return false;"
